@@ -1,5 +1,5 @@
 {
-    "name": "EditionsTissot/docker-image",
+    "name": "editionstissot/docker-image",
     "description": "easily create dockerfile from template",
     "type": "project",
     "license": "proprietary",
