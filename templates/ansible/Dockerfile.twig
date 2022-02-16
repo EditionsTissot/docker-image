@@ -1,0 +1,9 @@
+FROM {{ source }}:{{ version }}
+
+MAINTAINER "{{ maintainer|raw }}"
+
+# Install custom extensions
+RUN apk upgrade --update && \
+    apk add --no-cache git openssh ansible
+
+RUN rm -rf /var/cache/apk/*

@@ -1,0 +1,16 @@
+{
+  "images": [
+    {
+      "name": "php",
+      "template": "php/Dockerfile.twig",
+      "source": "php",
+      "repository": "editionstissot/php",
+      "versions": [
+        "8.0.14"
+      ],
+      "variants": [
+        "alpine"
+      ]
+    }
+  ]
+}
