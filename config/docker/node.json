@@ -6,7 +6,7 @@
       "source": "node",
       "repository": "editionstissot/node",
       "versions": [
-        "12"
+        "12", "14"
       ],
       "variants": [
         "slim"
