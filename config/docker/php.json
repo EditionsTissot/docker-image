@@ -6,7 +6,7 @@
       "source": "php",
       "repository": "editionstissot/php",
       "versions": [
-        "8.0.14"
+        "8.0"
       ],
       "variants": [
         "alpine"
