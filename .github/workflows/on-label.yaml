@@ -34,3 +34,13 @@ jobs:
     secrets:
       DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
       DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
+
+  bdes:
+    if: ${{ contains( github.event.pull_request.labels.*.name, 'preview/bdes' ) }}
+    uses: EditionsTissot/docker-image/.github/workflows/image-docker.yaml@main
+    with:
+      language: bdes
+      pr_number: ${{ github.event.pull_request.number }}
+    secrets:
+      DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+      DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}

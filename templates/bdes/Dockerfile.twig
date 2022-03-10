@@ -1,0 +1,59 @@
+FROM node:{{ variant }}-alpine AS node
+FROM php:{{ version }}-fpm-alpine
+
+RUN apk upgrade --update && \
+    apk add --no-cache bash git openssh zip make openssl wget curl libpng libzip icu libcurl oniguruma gnupg gpgme-dev yarn && \
+    apk add --no-cache --virtual .build-deps libxml2-dev sqlite-dev curl-dev libzip-dev freetype freetype-dev libpng-dev libjpeg-turbo-dev libwebp-dev zlib-dev libxpm-dev icu-dev oniguruma-dev pcre-dev ${PHPIZE_DEPS}
+
+RUN docker-php-ext-install gd
+
+RUN pecl install apcu \
+    && docker-php-ext-enable apcu
+
+RUN pecl install gnupg \
+    && docker-php-ext-enable gnupg
+
+RUN apk add --no-cache --virtual .phpize-deps $PHPIZE_DEPS imagemagick-dev libtool \
+    && export CFLAGS="$PHP_CFLAGS" CPPFLAGS="$PHP_CPPFLAGS" LDFLAGS="$PHP_LDFLAGS" \
+    && pecl install imagick \
+    && docker-php-ext-enable imagick
+
+RUN docker-php-ext-install bcmath bz2 curl ctype intl json mbstring pdo pdo_mysql sockets xml zip
+
+RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
+COPY symfony.ini $PHP_INI_DIR/conf.d/symfony.ini
+
+RUN curl -s https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin/ --filename=composer
+
+RUN curl -LsS https://get.symfony.com/cli/installer | bash \
+    && mv /root/.symfony/bin/symfony /usr/local/bin/symfony \
+    && symfony server:ca:install
+
+ENV PANTHER_NO_SANDBOX 1
+RUN apk add --no-cache firefox libzip-dev
+
+ARG GLIBC_VERSION=2.34-r0
+RUN wget -q -O /etc/apk/keys/sgerrand.rsa.pub https://alpine-pkgs.sgerrand.com/sgerrand.rsa.pub && \
+    wget https://github.com/sgerrand/alpine-pkg-glibc/releases/download/$GLIBC_VERSION/glibc-$GLIBC_VERSION.apk && \
+    wget https://github.com/sgerrand/alpine-pkg-glibc/releases/download/$GLIBC_VERSION/glibc-bin-$GLIBC_VERSION.apk && \
+    apk add glibc-$GLIBC_VERSION.apk && \
+    apk add glibc-bin-$GLIBC_VERSION.apk
+
+ARG GECKODRIVER_VERSION=0.30.0
+RUN wget https://github.com/mozilla/geckodriver/releases/download/v$GECKODRIVER_VERSION/geckodriver-v$GECKODRIVER_VERSION-linux64.tar.gz && \
+    tar -zxf geckodriver-v$GECKODRIVER_VERSION-linux64.tar.gz -C /usr/bin && \
+    geckodriver --version
+
+COPY --from=node /usr/lib /usr/lib
+COPY --from=node /usr/local/share /usr/local/share
+COPY --from=node /usr/local/lib /usr/local/lib
+COPY --from=node /usr/local/include /usr/local/include
+COPY --from=node /usr/local/bin /usr/local/bin
+
+# CLEAN
+RUN pecl clear-cache \
+    && apk del .build-deps \
+    && rm -rf /tmp/* /usr/local/lib/php/doc/* /var/cache/apk/*
+
+RUN mkdir -p /var/www/html
+WORKDIR /var/www/html

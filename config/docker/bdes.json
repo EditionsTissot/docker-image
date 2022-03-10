@@ -1,0 +1,16 @@
+{
+  "images": [
+    {
+      "name": "bdes",
+      "template": "bdes/Dockerfile.twig",
+      "source": "bdes",
+      "repository": "editionstissot/bdes",
+      "versions": [
+        "7.4"
+      ],
+      "variants": [
+        "15"
+      ]
+    }
+  ]
+}
