@@ -21,7 +21,7 @@ RUN apk add --no-cache --virtual .phpize-deps $PHPIZE_DEPS imagemagick-dev libto
 RUN docker-php-ext-install bcmath bz2 curl ctype intl json mbstring pdo pdo_mysql sockets xml zip
 
 RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
-COPY symfony.ini $PHP_INI_DIR/conf.d/symfony.ini
+COPY ../templates/bdes/symfony.ini $PHP_INI_DIR/conf.d/symfony.ini
 
 RUN curl -s https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin/ --filename=composer
 
