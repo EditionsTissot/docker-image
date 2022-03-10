@@ -5,7 +5,7 @@ RUN apk upgrade --update && \
     apk add --no-cache bash git openssh zip make openssl wget curl libpng libzip icu libcurl oniguruma gnupg gpgme-dev mysql-client yarn && \
     apk add --no-cache --virtual .build-deps libxml2-dev sqlite-dev curl-dev libzip-dev freetype freetype-dev libpng-dev libjpeg-turbo-dev libwebp-dev zlib-dev libxpm-dev icu-dev oniguruma-dev pcre-dev ${PHPIZE_DEPS}
 
-RUN rm -f /usr/bin/python && ln -s /usr/bin/python /usr/bin/python3
+RUN rm -f /usr/bin/python && ln -s /usr/bin/python3 /usr/bin/python
 
 RUN docker-php-ext-install gd
 
