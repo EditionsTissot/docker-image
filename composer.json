@@ -11,6 +11,8 @@
         "ext-iconv": "*",
         "symfony/console": "6.0.*",
         "symfony/dotenv": "6.0.*",
+        "symfony/filesystem": "6.0.*",
+        "symfony/finder": "6.0.*",
         "symfony/flex": "^2",
         "symfony/framework-bundle": "6.0.*",
         "symfony/requirements-checker": "^2.0",

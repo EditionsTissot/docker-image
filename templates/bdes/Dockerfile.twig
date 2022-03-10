@@ -21,13 +21,18 @@ RUN apk add --no-cache --virtual .phpize-deps $PHPIZE_DEPS imagemagick-dev libto
 RUN docker-php-ext-install bcmath bz2 curl ctype intl json mbstring pdo pdo_mysql sockets xml zip
 
 RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
-COPY ../templates/bdes/symfony.ini $PHP_INI_DIR/conf.d/symfony.ini
+COPY symfony.ini $PHP_INI_DIR/conf.d/symfony.ini
 
 RUN curl -s https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin/ --filename=composer
 
 RUN curl -LsS https://get.symfony.com/cli/installer | bash \
     && mv /root/.symfony/bin/symfony /usr/local/bin/symfony \
     && symfony server:ca:install
+
+ENV DOCKERIZE_VERSION v0.6.1
+RUN wget https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSION/dockerize-alpine-linux-amd64-$DOCKERIZE_VERSION.tar.gz \
+    && tar -C /usr/local/bin -xzvf dockerize-alpine-linux-amd64-$DOCKERIZE_VERSION.tar.gz \
+    && rm dockerize-alpine-linux-amd64-$DOCKERIZE_VERSION.tar.gz
 
 ENV PANTHER_NO_SANDBOX 1
 RUN apk add --no-cache firefox libzip-dev
