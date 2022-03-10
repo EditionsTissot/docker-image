@@ -19,6 +19,7 @@ class DockerGenerateCommand extends Command
         protected string $renderDir,
         protected string $projectDir,
         protected string $templateDir,
+        protected string $scriptsDir,
         protected Environment $twig
     ) {
         parent::__construct();
@@ -88,7 +89,7 @@ class DockerGenerateCommand extends Command
         $filesystem = new Filesystem();
         $files = $finder->files()->notName('*.twig')->in($this->templateDir.'/'.$dir);
         foreach ($files as $file) {
-            $filesystem->copy($file->getPathname(), $this->renderDir.'/'.$file->getFilename());
+            $filesystem->copy($file->getPathname(), $this->scriptsDir.'/'.$file->getFilename());
         }
     }
 }
