@@ -2,7 +2,7 @@ FROM node:{{ variant }}-alpine AS node
 FROM php:{{ version }}-fpm-alpine
 
 RUN apk upgrade --update && \
-    apk add --no-cache bash git openssh zip make openssl wget curl libpng libzip icu libcurl oniguruma gnupg gpgme-dev yarn && \
+    apk add --no-cache bash git openssh zip make openssl wget curl libpng libzip icu libcurl oniguruma gnupg gpgme-dev python2 yarn && \
     apk add --no-cache --virtual .build-deps libxml2-dev sqlite-dev curl-dev libzip-dev freetype freetype-dev libpng-dev libjpeg-turbo-dev libwebp-dev zlib-dev libxpm-dev icu-dev oniguruma-dev pcre-dev ${PHPIZE_DEPS}
 
 RUN docker-php-ext-install gd
