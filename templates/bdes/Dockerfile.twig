@@ -58,7 +58,8 @@ RUN CHROME_VERSION="$(google-chrome --version)" \
 
 # CLEAN
 RUN pecl clear-cache \
-    && rm -rf /var/lib/apt/lists/*
+    && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
+    /usr/share/doc/* /usr/share/groff/* /usr/share/info/*
 
 # Add node
 COPY --from=node /usr/lib /usr/lib
