@@ -4,8 +4,6 @@ RUN apt-get update && apt-get install -y \
     bash git zip make wget curl yarn \
     zlib1g-dev libpng-dev libgpgme-dev libmagickwand-dev libcurl4-openssl-dev libonig-dev libzip-dev unzip --no-install-recommends
 
-RUN rm -f /usr/bin/python && ln -s /usr/bin/python3 /usr/bin/python
-
 RUN docker-php-ext-install gd
 
 RUN pecl install apcu \
