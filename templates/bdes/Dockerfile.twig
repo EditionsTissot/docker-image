@@ -1,7 +1,7 @@
 FROM php:{{ version }}-fpm
 
 RUN apt-get update && apt-get install -y \
-    bash git zip make wget curl python2 \
+    bash git zip make wget curl default-mysql-client python2 \
     zlib1g-dev libpng-dev libgpgme-dev libmagickwand-dev libcurl4-openssl-dev libonig-dev libzip-dev unzip --no-install-recommends
 
 RUN docker-php-ext-install gd
