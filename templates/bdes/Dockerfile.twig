@@ -1,25 +1,16 @@
-FROM php:{{ version }}-fpm
+FROM circleci/php:{{ version }}-fpm-node-browsers
 
-RUN apt-get update && apt-get install -y \
-    bash git zip make wget curl default-mysql-client python2 \
-    zlib1g-dev libpng-dev libgpgme-dev libmagickwand-dev libcurl4-openssl-dev libonig-dev libzip-dev unzip --no-install-recommends
+RUN sudo apt-get update && sudo apt-get install -y \
+    default-mysql-client software-properties-common python2 libmagickwand-dev --no-install-recommends
 
-RUN docker-php-ext-install gd
+RUN sudo docker-php-ext-install pdo_mysql
+RUN sudo pecl install imagick \
+    && sudo docker-php-ext-enable imagick
 
-RUN pecl install apcu \
-    && docker-php-ext-enable apcu
+RUN sudo ln -sf /usr/share/zoneinfo/Europre/Paris /etc/localtime
 
-RUN pecl install gnupg \
-    && docker-php-ext-enable gnupg
-
-RUN export CFLAGS="$PHP_CFLAGS" CPPFLAGS="$PHP_CPPFLAGS" LDFLAGS="$PHP_LDFLAGS" \
-    && pecl install imagick \
-    && docker-php-ext-enable imagick
-
-RUN docker-php-ext-install bcmath bz2 curl ctype intl json mbstring pdo pdo_mysql sockets xml zip
-
-RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
-COPY symfony.ini $PHP_INI_DIR/conf.d/symfony.ini
+RUN sudo mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
+COPY sudo symfony.ini $PHP_INI_DIR/conf.d/symfony.ini
 
 RUN curl -s https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin/ --filename=composer
 
@@ -31,8 +22,6 @@ ENV DOCKERIZE_VERSION v0.6.1
 RUN wget https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSION/dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz \
     && tar -C /usr/local/bin -xzvf dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz \
     && rm dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz
-
-ENV PANTHER_NO_SANDBOX 1
 
 {% if variant == '15' %}
 ENV NODE_VERSION=15.14.0
@@ -49,36 +38,10 @@ RUN npm --version
 RUN npm install --global yarn
 RUN yarn --version
 
-# install chrome
-RUN cd && wget -O google-chrome-stable_current_amd64.deb -t 5 "https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb" \
-    && (dpkg -i google-chrome-stable_current_amd64.deb || apt-get -fy install)  \
-    && rm -rf google-chrome-stable_current_amd64.deb \
-    && sed -i 's|HERE/chrome"|HERE/chrome" --disable-setuid-sandbox --no-sandbox|g' \
-    "/opt/google/chrome/google-chrome" \
-    && google-chrome --version
-
-RUN CHROME_VERSION="$(google-chrome --version)" \
-    && export CHROMEDRIVER_RELEASE="$(echo $CHROME_VERSION | sed 's/^Google Chrome //')" && export CHROMEDRIVER_RELEASE=${CHROMEDRIVER_RELEASE%%.*} \
-    && CHROMEDRIVER_VERSION=$(curl --silent --show-error --location --fail --retry 4 --retry-delay 5 http://chromedriver.storage.googleapis.com/LATEST_RELEASE_${CHROMEDRIVER_RELEASE}) \
-    && curl --silent --show-error --location --fail --retry 4 --retry-delay 5 --output /tmp/chromedriver_linux64.zip "http://chromedriver.storage.googleapis.com/$CHROMEDRIVER_VERSION/chromedriver_linux64.zip" \
-    && cd /tmp \
-    && unzip chromedriver_linux64.zip \
-    && rm -rf chromedriver_linux64.zip \
-    && mv chromedriver /usr/local/bin/chromedriver \
-    && chmod +x /usr/local/bin/chromedriver \
-    && chromedriver --version
-
 # CLEAN
 RUN pecl clear-cache \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
     /usr/share/doc/* /usr/share/groff/* /usr/share/info/*
-
-# Add node
-COPY --from=node /usr/lib /usr/lib
-COPY --from=node /usr/local/share /usr/local/share
-COPY --from=node /usr/local/lib /usr/local/lib
-COPY --from=node /usr/local/include /usr/local/include
-COPY --from=node /usr/local/bin /usr/local/bin
 
 RUN mkdir -p /var/www/html
 WORKDIR /var/www/html
