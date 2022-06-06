@@ -57,6 +57,11 @@ RUN CHROME_VERSION="$(google-chrome --version)" \
     && chmod +x /usr/local/bin/chromedriver \
     && chromedriver --version
 
+ARG GECKODRIVER_VERSION=0.30.0
+RUN wget https://github.com/mozilla/geckodriver/releases/download/v$GECKODRIVER_VERSION/geckodriver-v$GECKODRIVER_VERSION-linux64.tar.gz && \
+tar -zxf geckodriver-v$GECKODRIVER_VERSION-linux64.tar.gz -C /usr/bin && \
+geckodriver --version
+
 # CLEAN
 RUN rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
     /usr/share/doc/* /usr/share/groff/* /usr/share/info/*
