@@ -4,7 +4,10 @@ FROM php:{{ version }}-fpm
 RUN curl -s https://deb.nodesource.com/setup_16.x | bash
 # Install dependencies
 RUN apt-get update -y && apt-get install -y \
-    libsqlite3-dev libzip-dev libpng-dev libgd3 make curl wget git nodejs yarn unzip libbz2-dev default-mysql-client
+    libsqlite3-dev libzip-dev libpng-dev libgd3 make curl wget git nodejs unzip libbz2-dev default-mysql-client
+
+# Install yarn
+RUN npm install --global yarn
 
 # Install dockerize to wait mysql
 ENV DOCKERIZE_VERSION v0.6.1
@@ -29,6 +32,7 @@ RUN alias composer='php /usr/bin/composer'
 
 # Install symfony cli
 RUN curl -LsS https://get.symfony.com/cli/installer | bash \
+    && mv /root/.symfony/bin/symfony /usr/local/bin/symfony \
     && symfony server:ca:install
 
 # install chrome
