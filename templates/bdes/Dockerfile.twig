@@ -29,7 +29,6 @@ RUN alias composer='php /usr/bin/composer'
 
 # Install symfony cli
 RUN curl -LsS https://get.symfony.com/cli/installer | bash \
-    && mv /root/.symfony/bin/symfony /usr/local/bin/symfony \
     && symfony server:ca:install
 
 # install chrome
