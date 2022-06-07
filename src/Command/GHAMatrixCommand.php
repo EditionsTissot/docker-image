@@ -2,15 +2,15 @@
 
 namespace App\Command;
 
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
+#[AsCommand(name: 'app:gha:matrix')]
 class GHAMatrixCommand extends Command
 {
-    protected static $defaultName = 'app:gha:matrix';
-
     public function __construct(
         protected string $configPath,
         protected string $renderDir
