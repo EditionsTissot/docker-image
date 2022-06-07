@@ -4,7 +4,7 @@ FROM php:{{ version }}-fpm
 RUN curl -s https://deb.nodesource.com/setup_16.x | bash
 # Install dependencies
 RUN apt-get update -y && apt-get install -y \
-    libsqlite3-dev libzip-dev libpng-dev libgd3 make curl wget git nodejs unzip libbz2-dev default-mysql-client firefox-geckodriver firefox-esr-l10n-fr
+    libsqlite3-dev libzip-dev libpng-dev libgd3 make curl wget git nodejs unzip libbz2-dev default-mysql-client firefox-esr-l10n-fr
 
 # Install yarn
 RUN npm install --global yarn
