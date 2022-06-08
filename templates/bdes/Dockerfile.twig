@@ -4,7 +4,7 @@ FROM php:{{ version }}-fpm
 RUN curl -s https://deb.nodesource.com/setup_16.x | bash
 # Install dependencies
 RUN apt-get update -y && apt-get install -y \
-    libsqlite3-dev libzip-dev libpng-dev libgd3 make curl wget git nodejs unzip libbz2-dev default-mysql-client firefox-esr-l10n-fr
+    libsqlite3-dev libzip-dev libpng-dev libgd3 make curl wget git nodejs unzip libbz2-dev default-mysql-client
 
 # Install yarn
 RUN npm install --global yarn
@@ -56,11 +56,6 @@ RUN CHROME_VERSION="$(google-chrome --version)" \
     && mv chromedriver /usr/local/bin/chromedriver \
     && chmod +x /usr/local/bin/chromedriver \
     && chromedriver --version
-
-ARG GECKODRIVER_VERSION=0.31.0
-RUN wget https://github.com/mozilla/geckodriver/releases/download/v$GECKODRIVER_VERSION/geckodriver-v$GECKODRIVER_VERSION-linux64.tar.gz && \
-tar -zxf geckodriver-v$GECKODRIVER_VERSION-linux64.tar.gz -C /usr/bin && \
-geckodriver --version
 
 # CLEAN
 RUN rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
