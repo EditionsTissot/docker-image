@@ -7,6 +7,8 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\Finder\Finder;
 use Twig\Environment;
 
 #[AsCommand(name: 'app:docker:generate')]
@@ -16,6 +18,8 @@ class DockerGenerateCommand extends Command
         protected string $configPath,
         protected string $renderDir,
         protected string $projectDir,
+        protected string $templateDir,
+        protected string $scriptsDir,
         protected Environment $twig
     ) {
         parent::__construct();
@@ -23,7 +27,7 @@ class DockerGenerateCommand extends Command
 
     protected function configure()
     {
-        $this->addArgument('type', InputArgument::REQUIRED, 'Choose between ansible|php|node');
+        $this->addArgument('type', InputArgument::REQUIRED, 'Choose between ansible|bdes|php|node');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -34,6 +38,7 @@ class DockerGenerateCommand extends Command
         $configs = json_decode(file_get_contents($pathFile), true, 512, \JSON_THROW_ON_ERROR);
 
         foreach ($configs['images'] as $image) {
+            $this->copyFiles($image['name']);
             foreach ($image['versions'] as $version) {
                 if (!isset($image['variants'])) {
                     $this->extracted($image['name'], $image['template'], $image['source'], $version);
@@ -76,5 +81,15 @@ class DockerGenerateCommand extends Command
         $name[] = 'Dockerfile';
 
         file_put_contents($this->renderDir . '/' . implode('.', $name), $file);
+    }
+
+    protected function copyFiles(string $dir): void
+    {
+        $finder = new Finder();
+        $filesystem = new Filesystem();
+        $files = $finder->files()->notName('*.twig')->in($this->templateDir.'/'.$dir);
+        foreach ($files as $file) {
+            $filesystem->copy($file->getPathname(), $this->renderDir.'/'.$file->getFilename());
+        }
     }
 }

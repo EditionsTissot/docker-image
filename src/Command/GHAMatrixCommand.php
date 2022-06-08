@@ -20,7 +20,7 @@ class GHAMatrixCommand extends Command
 
     protected function configure()
     {
-        $this->addArgument('type', InputArgument::REQUIRED, 'Choose between ansible|php|node');
+        $this->addArgument('type', InputArgument::REQUIRED, 'Choose between ansible|bdes|php|node');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int

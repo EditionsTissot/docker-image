@@ -1,0 +1,65 @@
+FROM php:{{ version }}-fpm
+
+# Node JS repo
+RUN curl -s https://deb.nodesource.com/setup_16.x | bash
+# Install dependencies
+RUN apt-get update -y && apt-get install -y \
+    libsqlite3-dev libzip-dev libpng-dev libgd3 make curl wget git nodejs unzip libbz2-dev default-mysql-client
+
+# Install yarn
+RUN npm install --global yarn
+
+# Install dockerize to wait mysql
+ENV DOCKERIZE_VERSION v0.6.1
+RUN wget https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSION/dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz \
+    && tar -C /usr/local/bin -xzvf dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz \
+    && rm dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz
+
+RUN docker-php-ext-install zip bcmath sockets pdo pdo_mysql gd bz2
+
+# Add `install-php-extensions` from https://github.com/mlocati/docker-php-extension-installer
+ADD https://github.com/mlocati/docker-php-extension-installer/releases/latest/download/install-php-extensions /usr/local/bin/
+RUN chmod +x /usr/local/bin/install-php-extensions && \
+    install-php-extensions imagick gnupg
+
+RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
+COPY symfony.ini $PHP_INI_DIR/conf.d/symfony.ini
+RUN ln -sf /usr/share/zoneinfo/Europre/Paris /etc/localtime
+
+# INSTALL COMPOSER
+RUN curl -s https://getcomposer.org/installer | php -- --install-dir=/usr/bin/ --filename=composer
+RUN alias composer='php /usr/bin/composer'
+
+# Install symfony cli
+RUN curl -LsS https://get.symfony.com/cli/installer | bash \
+    && mv /root/.symfony/bin/symfony /usr/local/bin/symfony \
+    && symfony server:ca:install
+
+# install chrome
+ARG CHROME_VERSION="google-chrome-stable"
+RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add - \
+    && echo "deb http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google-chrome.list \
+    && apt-get update -qqy \
+    && apt-get -qqy install \
+    ${CHROME_VERSION:-google-chrome-stable} \
+    && rm /etc/apt/sources.list.d/google-chrome.list \
+    && rm -rf /var/lib/apt/lists/* /var/cache/apt/* \
+    && google-chrome --version
+
+RUN CHROME_VERSION="$(google-chrome --version)" \
+    && export CHROMEDRIVER_RELEASE="$(echo $CHROME_VERSION | sed 's/^Google Chrome //')" && export CHROMEDRIVER_RELEASE=${CHROMEDRIVER_RELEASE%%.*} \
+    && CHROMEDRIVER_VERSION=$(curl --silent --show-error --location --fail --retry 4 --retry-delay 5 http://chromedriver.storage.googleapis.com/LATEST_RELEASE_${CHROMEDRIVER_RELEASE}) \
+    && curl --silent --show-error --location --fail --retry 4 --retry-delay 5 --output /tmp/chromedriver_linux64.zip "http://chromedriver.storage.googleapis.com/$CHROMEDRIVER_VERSION/chromedriver_linux64.zip" \
+    && cd /tmp \
+    && unzip chromedriver_linux64.zip \
+    && rm -rf chromedriver_linux64.zip \
+    && mv chromedriver /usr/local/bin/chromedriver \
+    && chmod +x /usr/local/bin/chromedriver \
+    && chromedriver --version
+
+# CLEAN
+RUN rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
+    /usr/share/doc/* /usr/share/groff/* /usr/share/info/*
+
+RUN mkdir -p /var/www/html
+WORKDIR /var/www/html

@@ -28,6 +28,8 @@ services:
             $configPath: '%kernel.project_dir%/config/docker'
             $renderDir: '%kernel.project_dir%/.render'
             $projectDir: '%kernel.project_dir%'
+            $templateDir: '%twig.default_path%'
+            $scriptsDir: '%kernel.project_dir%/scripts'
 
     App\Command\GHAMatrixCommand:
         arguments:
