@@ -1,0 +1,43 @@
+FROM php:{{ version }}-fpm-alpine
+
+RUN echo 'http://dl-cdn.alpinelinux.org/alpine/v3.6/community' >> /etc/apk/repositories
+
+RUN apk upgrade --update && \
+apk add --no-cache ${PHPIZE_DEPS} zip curl wget libpng libzip icu mariadb-client openssh make openssl imagemagick imagemagick-dev 'tidyhtml-dev==5.2.0-r1' && \
+apk add --no-cache --virtual .build-deps libxml2-dev curl-dev libzip-dev libpng-dev icu-dev libjpeg-turbo-dev libwebp-dev zlib-dev libxpm-dev
+
+COPY php.ini "$PHP_INI_DIR/php.ini"
+
+RUN docker-php-ext-install pdo pdo_mysql zip bcmath xml curl gd intl sysvsem sockets
+
+# Xdebug
+RUN pecl install xdebug-3.1.3 \
+&& docker-php-ext-enable xdebug
+
+# Imagick
+RUN pecl install -o -f imagick \
+&& docker-php-ext-enable imagick
+
+# Apcu
+RUN pecl install apcu \
+&& docker-php-ext-enable apcu
+
+# Tidy
+RUN apk update \
+&& apk add --no-cache 'tidyhtml-dev==5.2.0-r1' \
+&& docker-php-ext-install tidy \
+&& docker-php-ext-enable tidy
+
+
+# INSTALL COMPOSER
+RUN curl -s https://getcomposer.org/installer | php -- --install-dir=/usr/bin/ --filename=composer
+RUN alias composer='php /usr/bin/composer'
+
+ARG imagemagic_config=/etc/ImageMagick-6/policy.xml
+RUN if [ -f $imagemagic_config ] ; then sed -i 's/<policy domain="coder" rights="none" pattern="PDF" \/>/<policy domain="coder" rights="read" pattern="PDF" \/>/g' $imagemagic_config ; else echo did not see file $imagemagic_config ; fi
+
+RUN apk del .build-deps \
+&& pecl clear-cache \
+&& rm -rf /tmp/* /usr/local/lib/php/doc/* /var/cache/apk/*
+
+WORKDIR /var/www/html
