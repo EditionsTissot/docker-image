@@ -1,0 +1,13 @@
+{
+  "images": [
+    {
+      "name": "of",
+      "template": "of/Dockerfile.twig",
+      "source": "of",
+      "repository": "editionstissot/of",
+      "versions": [
+        "8.1"
+      ]
+    }
+  ]
+}
