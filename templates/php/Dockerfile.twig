@@ -12,8 +12,6 @@ ENV DOCKERIZE_VERSION v0.6.1
 RUN wget https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSION/dockerize-alpine-linux-amd64-$DOCKERIZE_VERSION.tar.gz \
     && tar -C /usr/local/bin -xzvf dockerize-alpine-linux-amd64-$DOCKERIZE_VERSION.tar.gz \
     && rm dockerize-alpine-linux-amd64-$DOCKERIZE_VERSION.tar.gz
-
-RUN rm -rf /var/cache/apk/*
 {% else %}
 RUN apt-get update && apt-get install -y \
     libsqlite3-dev libzip-dev libpng-dev libgd3 make curl wget
@@ -22,8 +20,6 @@ ENV DOCKERIZE_VERSION v0.6.1
 RUN wget https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSION/dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz \
     && tar -C /usr/local/bin -xzvf dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz \
     && rm dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz
-
-RUN rm -rf /var/lib/apt/lists/*
 {% endif %}
 
 RUN docker-php-ext-install zip bcmath sockets pdo pdo_mysql gd
@@ -33,5 +29,13 @@ RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
 RUN curl -s https://getcomposer.org/installer | php -- --install-dir=/usr/bin/ --filename=composer
 RUN alias composer='php /usr/bin/composer'
 
-RUN ssh-keyscan github.com >> ~/.ssh/known_hosts
+RUN mkdir ~/.ssh && ssh-keyscan github.com >> ~/.ssh/known_hosts
 RUN wget https://get.symfony.com/cli/installer -O - | bash
+
+{% if variant == 'alpine' %}
+RUN apk del .build-deps \
+&& pecl clear-cache \
+&& rm -rf /tmp/* /usr/local/lib/php/doc/* /var/cache/apk/*
+{% else %}
+RUN rm -rf /var/lib/apt/lists/* /tmp/* /usr/local/lib/php/doc/*
+{% endif %}
