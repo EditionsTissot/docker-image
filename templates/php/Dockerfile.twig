@@ -33,8 +33,7 @@ RUN mkdir ~/.ssh && ssh-keyscan github.com >> ~/.ssh/known_hosts
 RUN wget https://get.symfony.com/cli/installer -O - | bash
 
 {% if variant == 'alpine' %}
-RUN pecl clear-cache \
-&& rm -rf /tmp/* /usr/local/lib/php/doc/* /var/cache/apk/*
+RUN rm -rf /tmp/* /usr/local/lib/php/doc/* /var/cache/apk/*
 {% else %}
 RUN rm -rf /var/lib/apt/lists/* /tmp/* /usr/local/lib/php/doc/*
 {% endif %}
