@@ -32,3 +32,6 @@ RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
 # INSTALL COMPOSER
 RUN curl -s https://getcomposer.org/installer | php -- --install-dir=/usr/bin/ --filename=composer
 RUN alias composer='php /usr/bin/composer'
+
+RUN ssh-keyscan github.com >> ~/.ssh/known_hosts
+RUN wget https://get.symfony.com/cli/installer -O - | bash
