@@ -11,7 +11,8 @@
         "8.1"
       ],
       "variants": [
-        "alpine"
+        "alpine",
+        "fpm-alpine"
       ]
     }
   ]
