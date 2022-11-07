@@ -3,7 +3,7 @@ FROM {{ source }}:{{ version }}-{{ variant }}
 MAINTAINER "{{ maintainer|raw }}"
 
 # Install custom extensions
-{% if variant == 'alpine' %}
+{% if variant == 'alpine' or variant == 'fpm-alpine' %}
 RUN apk upgrade --update && \
     apk add --no-cache sqlite git openssh zip make openssl bash jq && \
     apk add --no-cache --virtual .build-deps libxml2-dev sqlite-dev curl-dev libzip-dev libpng-dev
@@ -34,7 +34,7 @@ RUN mkdir ~/.ssh && ssh-keyscan github.com >> ~/.ssh/known_hosts
 RUN wget https://get.symfony.com/cli/installer -O - | bash
 RUN mv /root/.symfony5/bin/symfony /usr/local/bin/symfony
 
-{% if variant == 'alpine' %}
+{% if variant == 'alpine' or variant == 'fpm-alpine' %}
 RUN rm -rf /tmp/* /usr/local/lib/php/doc/* /var/cache/apk/*
 {% else %}
 RUN rm -rf /var/lib/apt/lists/* /tmp/* /usr/local/lib/php/doc/*
