@@ -6,7 +6,7 @@ MAINTAINER "{{ maintainer|raw }}"
 {% if variant == 'alpine' or variant == 'fpm-alpine' %}
 RUN apk upgrade --update && \
     apk add --no-cache sqlite git openssh zip make openssl bash jq && \
-    apk add --no-cache --virtual .build-deps libxml2-dev sqlite-dev curl-dev libzip-dev libpng-dev
+    apk add --no-cache --virtual .build-deps libxml2-dev sqlite-dev curl-dev libzip-dev libpng-dev $PHPIZE_DEPS
 
 ENV DOCKERIZE_VERSION v0.6.1
 RUN wget https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSION/dockerize-alpine-linux-amd64-$DOCKERIZE_VERSION.tar.gz \
