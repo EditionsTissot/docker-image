@@ -23,6 +23,8 @@ RUN wget https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSI
 {% endif %}
 
 RUN docker-php-ext-install zip bcmath sockets pdo pdo_mysql gd
+RUN pecl install xdebug \
+    && docker-php-ext-enable xdebug
 RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
 
 # INSTALL COMPOSER
