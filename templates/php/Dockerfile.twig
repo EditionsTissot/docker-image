@@ -5,8 +5,8 @@ MAINTAINER "{{ maintainer|raw }}"
 # Install custom extensions
 {% if variant == 'alpine' or variant == 'fpm-alpine' %}
 RUN apk upgrade --update && \
-    apk add --no-cache sqlite git openssh zip make openssl bash jq && \
-    apk add --no-cache --virtual .build-deps libxml2-dev sqlite-dev curl-dev libzip-dev libpng-dev $PHPIZE_DEPS
+    apk add --no-cache sqlite git openssh zip make openssl bash jq icu && \
+    apk add --no-cache --virtual .build-deps libxml2-dev sqlite-dev curl-dev libzip-dev libpng-dev icu-dev $PHPIZE_DEPS
 
 ENV DOCKERIZE_VERSION v0.6.1
 RUN wget https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSION/dockerize-alpine-linux-amd64-$DOCKERIZE_VERSION.tar.gz \
@@ -14,7 +14,7 @@ RUN wget https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSI
     && rm dockerize-alpine-linux-amd64-$DOCKERIZE_VERSION.tar.gz
 {% else %}
 RUN apt-get update && apt-get install -y \
-    libsqlite3-dev libzip-dev libpng-dev libgd3 make curl wget bash jq
+    libsqlite3-dev libzip-dev libpng-dev libgd3 make curl wget bash jq icu icu-dev
 
 ENV DOCKERIZE_VERSION v0.6.1
 RUN wget https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSION/dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz \
