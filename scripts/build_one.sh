@@ -32,9 +32,9 @@ fi
 
 if test "$PR_NUMBER"
 then
-  docker build --pull -t "$tagName" --label "$tagName" --platform arm64 -f "$path" $RENDER_DIR
+  docker build --pull -t "$tagName" --label "$tagName" -f "$path" $RENDER_DIR
   docker push "$repo" --all-tags
 else
-  docker build --pull -t "$tagName-latest" -t "$tagName-$(date +'%Y%m%d')" --label "$tagName-$(date +'%Y%m%d')" --platform arm64 -f "$path" $RENDER_DIR
+  docker build --pull -t "$tagName-latest" -t "$tagName-$(date +'%Y%m%d')" --label "$tagName-$(date +'%Y%m%d')" -f "$path" $RENDER_DIR
   docker push "$repo" --all-tags
 fi
