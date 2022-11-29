@@ -26,6 +26,7 @@ RUN docker-php-ext-install zip bcmath sockets pdo pdo_mysql gd intl
 RUN pecl install xdebug \
     && docker-php-ext-enable xdebug
 RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
+COPY symfony.ini $PHP_INI_DIR/conf.d/symfony.ini
 
 # INSTALL COMPOSER
 RUN curl -s https://getcomposer.org/installer | php -- --install-dir=/usr/bin/ --filename=composer
