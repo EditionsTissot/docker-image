@@ -6,7 +6,7 @@ on:
 jobs:
   php:
     if: ${{ contains( github.event.pull_request.labels.*.name, 'preview/php' ) }}
-    uses: EditionsTissot/docker-image/.github/workflows/image-docker.yaml@main
+    uses: EditionsTissot/docker-image/.github/workflows/image-docker.yaml@chore/new-build
     with:
       language: php
       pr_number: ${{ github.event.pull_request.number }}
@@ -16,7 +16,7 @@ jobs:
 
   node:
     if: ${{ contains( github.event.pull_request.labels.*.name, 'preview/node' ) }}
-    uses: EditionsTissot/docker-image/.github/workflows/image-docker.yaml@main
+    uses: EditionsTissot/docker-image/.github/workflows/image-docker.yaml@chore/new-build
     with:
       language: node
       pr_number: ${{ github.event.pull_request.number }}
@@ -26,7 +26,7 @@ jobs:
 
   ansible:
     if: ${{ contains( github.event.pull_request.labels.*.name, 'preview/ansible' ) }}
-    uses: EditionsTissot/docker-image/.github/workflows/image-docker.yaml@main
+    uses: EditionsTissot/docker-image/.github/workflows/image-docker.yaml@chore/new-build
     with:
       language: ansible
       pr_number: ${{ github.event.pull_request.number }}
@@ -36,7 +36,7 @@ jobs:
 
   bdes:
     if: ${{ contains( github.event.pull_request.labels.*.name, 'preview/bdes' ) }}
-    uses: EditionsTissot/docker-image/.github/workflows/image-docker.yaml@main
+    uses: EditionsTissot/docker-image/.github/workflows/image-docker.yaml@chore/new-build
     with:
       language: bdes
       pr_number: ${{ github.event.pull_request.number }}
@@ -46,7 +46,7 @@ jobs:
 
   of:
     if: ${{ contains( github.event.pull_request.labels.*.name, 'preview/of' ) }}
-    uses: EditionsTissot/docker-image/.github/workflows/image-docker.yaml@main
+    uses: EditionsTissot/docker-image/.github/workflows/image-docker.yaml@chore/new-build
     with:
       language: of
       pr_number: ${{ github.event.pull_request.number }}
