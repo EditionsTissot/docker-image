@@ -39,6 +39,7 @@ class DockerGenerateCommand extends Command
 
         foreach ($configs['images'] as $image) {
             $this->copyFiles($image['name']);
+
             foreach ($image['versions'] as $version) {
                 if (!isset($image['variants'])) {
                     $this->extracted($image['name'], $image['template'], $image['source'], $version);
@@ -78,18 +79,19 @@ class DockerGenerateCommand extends Command
             $variant = $option ? $variant . '-' . $option : $variant;
             $name[] = $variant;
         }
-        $name[] = 'Dockerfile';
+        $name[] = '.Dockerfile';
 
-        file_put_contents($this->renderDir . '/' . implode('.', $name), $file);
+        file_put_contents($this->renderDir . '/' . implode('-', $name), $file);
     }
 
     protected function copyFiles(string $dir): void
     {
         $finder = new Finder();
         $filesystem = new Filesystem();
-        $files = $finder->files()->notName('*.twig')->in($this->templateDir.'/'.$dir);
+        $files = $finder->files()->notName('*.twig')->in($this->templateDir . '/' . $dir);
+
         foreach ($files as $file) {
-            $filesystem->copy($file->getPathname(), $this->renderDir.'/'.$file->getFilename());
+            $filesystem->copy($file->getPathname(), $this->renderDir . '/' . $file->getFilename());
         }
     }
 }
