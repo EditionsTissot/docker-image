@@ -101,8 +101,7 @@ jobs:
         uses: docker/metadata-action@v4
         with:
           images: ${{ matrix.image }}
-          tags: |
-            prefix=${{ matrix.prefix }}
+          prefix: ${{ matrix.prefix }}
 
       - name: Build and push Docker image
         uses: docker/build-push-action@v3
