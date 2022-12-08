@@ -104,7 +104,6 @@ jobs:
           tags: |
             type=ref,event=branch
             type=ref,event=pr,prefix=${{ matrix.prefix }}pr-
-            type=ref,event=workflow_dispatch,prefix=${{ matrix.prefix }}
             type=semver,pattern={{version}},prefix=${{ matrix.prefix }}
             type=semver,pattern={{major}}.{{minor}},prefix=${{ matrix.prefix }}
             type=semver,pattern={{major}},prefix=${{ matrix.prefix }}
