@@ -80,15 +80,17 @@ jobs:
       fail-fast: false
       matrix: ${{fromJson(needs.create.outputs.matrix)}}
     steps:
-      - uses: hmarr/debug-action@v2
-      - name: Create annotation for build error
-        run: echo "${{ matrix }}"
       - name: checkout repo
         uses: actions/checkout@v3
       - uses: actions/download-artifact@master
         with:
           name: templates
           path: .render/
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
 
       - name: Login to DockerHub
         uses: docker/login-action@v2
