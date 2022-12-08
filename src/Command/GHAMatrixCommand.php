@@ -81,7 +81,7 @@ class GHAMatrixCommand extends Command
                     ...$optionsVariant,
                 ];
             }*/
-            file_put_contents($this->renderDir . '/matrix.json', json_encode(['includes' => $matrix], \JSON_THROW_ON_ERROR));
+            file_put_contents($this->renderDir . '/matrix.json', json_encode(['include' => $matrix], \JSON_THROW_ON_ERROR));
         }
 
         return Command::SUCCESS;
