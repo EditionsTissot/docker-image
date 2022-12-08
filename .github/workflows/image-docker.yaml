@@ -102,6 +102,9 @@ jobs:
         with:
           images: ${{ matrix.image }}
           prefix: ${{ matrix.prefix }}
+          flavor: |
+            latest=auto
+            prefix=${{ matrix.prefix }},onlatest=true
 
       - name: Build and push Docker image
         uses: docker/build-push-action@v3
