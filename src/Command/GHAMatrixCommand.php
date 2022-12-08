@@ -30,6 +30,8 @@ class GHAMatrixCommand extends Command
 
         $configs = json_decode(file_get_contents($pathFile), true, 512, \JSON_THROW_ON_ERROR);
 
+        $renderDir = $this->renderDir . '/';
+
         foreach ($configs['images'] as $image) {
             $defaultData = [
                 'image' => $image['repository'],
@@ -42,20 +44,20 @@ class GHAMatrixCommand extends Command
                 $data['version'] = $version;
 
                 if (!isset($image['variants'])) {
-                    $data['dockerfile'] = implode('-', [$type, $version, '.Dockerfile']);
+                    $data['dockerfile'] = $renderDir . implode('-', [$type, $version, '.Dockerfile']);
                     $matrix[] = $data;
                     continue;
                 }
 
                 foreach ($image['variants'] as $variant) {
                     $data['variant'] = $variant;
-                    $data['dockerfile'] = implode('-', [$type, $version, $variant, '.Dockerfile']);
+                    $data['dockerfile'] = $renderDir . implode('-', [$type, $version, $variant, '.Dockerfile']);
                     $matrix[] = $data;
 
                     if (isset($image['options'])) {
                         foreach ($image['options'] as $option) {
                             $data['option'] = $option;
-                            $data['dockerfile'] = implode('-', [$type, $version, $variant, $option, '.Dockerfile']);
+                            $data['dockerfile'] = $renderDir . implode('-', [$type, $version, $variant, $option, '.Dockerfile']);
                             $matrix[] = $data;
                         }
                     }
