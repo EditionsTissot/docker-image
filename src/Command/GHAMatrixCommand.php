@@ -42,20 +42,20 @@ class GHAMatrixCommand extends Command
                 $data['version'] = $version;
 
                 if (!isset($image['variants'])) {
-                    $data['template'] = implode('-', [$type, $version, '.Dockerfile']);
+                    $data['dockerfile'] = implode('-', [$type, $version, '.Dockerfile']);
                     $matrix[] = $data;
                     continue;
                 }
 
                 foreach ($image['variants'] as $variant) {
                     $data['variant'] = $variant;
-                    $data['template'] = implode('-', [$type, $version, $variant, '.Dockerfile']);
+                    $data['dockerfile'] = implode('-', [$type, $version, $variant, '.Dockerfile']);
                     $matrix[] = $data;
 
                     if (isset($image['options'])) {
                         foreach ($image['options'] as $option) {
                             $data['option'] = $option;
-                            $data['template'] = implode('-', [$type, $version, $variant, $option, '.Dockerfile']);
+                            $data['dockerfile'] = implode('-', [$type, $version, $variant, $option, '.Dockerfile']);
                             $matrix[] = $data;
                         }
                     }
