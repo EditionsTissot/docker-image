@@ -101,6 +101,10 @@ jobs:
         uses: docker/metadata-action@v4
         with:
           images: ${{ matrix.image }}
+          flavor: |
+            latest=auto
+            prefix=${{ matrix.prefix }},onlatest=true
+            suffix=
 
       - name: Build and push Docker image
         uses: docker/build-push-action@v3

@@ -45,6 +45,7 @@ class GHAMatrixCommand extends Command
 
                 if (!isset($image['variants'])) {
                     $data['dockerfile'] = $renderDir . implode('-', [$type, $version, '.Dockerfile']);
+                    $data['prefix'] = implode('-', [$version]).'-';
                     $matrix[] = $data;
                     continue;
                 }
@@ -52,12 +53,14 @@ class GHAMatrixCommand extends Command
                 foreach ($image['variants'] as $variant) {
                     $data['variant'] = $variant;
                     $data['dockerfile'] = $renderDir . implode('-', [$type, $version, $variant, '.Dockerfile']);
+                    $data['prefix'] = implode('-', [$version, $variant]).'-';
                     $matrix[] = $data;
 
                     if (isset($image['options'])) {
                         foreach ($image['options'] as $option) {
                             $data['option'] = $option;
                             $data['dockerfile'] = $renderDir . implode('-', [$type, $version, $variant, $option, '.Dockerfile']);
+                            $data['prefix'] = implode('-', [$version, $variant, $option]).'-';
                             $matrix[] = $data;
                         }
                     }
