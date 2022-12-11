@@ -38,16 +38,19 @@ RUN curl -LsS https://get.symfony.com/cli/installer | bash \
 
 # install chrome
 ARG CHROME_VERSION="google-chrome-stable"
-RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add - \
+RUN if [ "$TARGETPLATFORM" = "linux/amd64" ]; then \
+    wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add - \
     && echo "deb http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google-chrome.list \
     && apt-get update -qqy \
     && apt-get -qqy install \
     ${CHROME_VERSION:-google-chrome-stable} \
     && rm /etc/apt/sources.list.d/google-chrome.list \
     && rm -rf /var/lib/apt/lists/* /var/cache/apt/* \
-    && google-chrome --version
+    && google-chrome --version \
+; fi
 
-RUN CHROME_VERSION="$(google-chrome --version)" \
+RUN if [ "$TARGETPLATFORM" = "linux/amd64" ]; then \
+    CHROME_VERSION="$(google-chrome --version)" \
     && export CHROMEDRIVER_RELEASE="$(echo $CHROME_VERSION | sed 's/^Google Chrome //')" && export CHROMEDRIVER_RELEASE=${CHROMEDRIVER_RELEASE%%.*} \
     && CHROMEDRIVER_VERSION=$(curl --silent --show-error --location --fail --retry 4 --retry-delay 5 http://chromedriver.storage.googleapis.com/LATEST_RELEASE_${CHROMEDRIVER_RELEASE}) \
     && curl --silent --show-error --location --fail --retry 4 --retry-delay 5 --output /tmp/chromedriver_linux64.zip "http://chromedriver.storage.googleapis.com/$CHROMEDRIVER_VERSION/chromedriver_linux64.zip" \
@@ -56,7 +59,8 @@ RUN CHROME_VERSION="$(google-chrome --version)" \
     && rm -rf chromedriver_linux64.zip \
     && mv chromedriver /usr/local/bin/chromedriver \
     && chmod +x /usr/local/bin/chromedriver \
-    && chromedriver --version
+    && chromedriver --version \
+; fi
 
 # Cypress dependencies
 RUN yarn global add cypress@10.11.0 && cypress install --force

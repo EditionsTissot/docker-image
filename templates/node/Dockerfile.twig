@@ -13,14 +13,17 @@ RUN apt-get install -y libgtk2.0-0 libgtk-3-0 libgbm-dev libnotify-dev libgconf-
 RUN yarn global add cypress@11.2.0 && cypress install --force
 
 # install chrome
-RUN cd && wget -O google-chrome-stable_current_amd64.deb -t 5 "https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb" \
+RUN if [ "$TARGETPLATFORM" = "linux/amd64" ]; then \
+    cd && wget -O google-chrome-stable_current_amd64.deb -t 5 "https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb" \
     && (dpkg -i google-chrome-stable_current_amd64.deb || apt-get -fy install)  \
     && rm -rf google-chrome-stable_current_amd64.deb \
     && sed -i 's|HERE/chrome"|HERE/chrome" --disable-setuid-sandbox --no-sandbox|g' \
     "/opt/google/chrome/google-chrome" \
-    && google-chrome --version
+    && google-chrome --version \
+; fi
 
-RUN CHROME_VERSION="$(google-chrome --version)" \
+RUN if [ "$TARGETPLATFORM" = "linux/amd64" ]; then \
+    CHROME_VERSION="$(google-chrome --version)" \
     && export CHROMEDRIVER_RELEASE="$(echo $CHROME_VERSION | sed 's/^Google Chrome //')" && export CHROMEDRIVER_RELEASE=${CHROMEDRIVER_RELEASE%%.*} \
     && CHROMEDRIVER_VERSION=$(curl --silent --show-error --location --fail --retry 4 --retry-delay 5 http://chromedriver.storage.googleapis.com/LATEST_RELEASE_${CHROMEDRIVER_RELEASE}) \
     && curl --silent --show-error --location --fail --retry 4 --retry-delay 5 --output /tmp/chromedriver_linux64.zip "http://chromedriver.storage.googleapis.com/$CHROMEDRIVER_VERSION/chromedriver_linux64.zip" \
@@ -29,7 +32,8 @@ RUN CHROME_VERSION="$(google-chrome --version)" \
     && rm -rf chromedriver_linux64.zip \
     && mv chromedriver /usr/local/bin/chromedriver \
     && chmod +x /usr/local/bin/chromedriver \
-    && chromedriver --version
+    && chromedriver --version \
+; fi
 {% endif %}
 
 RUN rm -rf /var/lib/apt/lists/*
