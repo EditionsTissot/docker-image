@@ -2,7 +2,7 @@ FROM {{ source }}:{{ version }}-{{ variant }}
 
 MAINTAINER "{{ maintainer|raw }}"
 
-sh -c "echo $TARGETPLATFORM"
+RUN sh -c "echo $TARGETPLATFORM"
 
 # Install custom extensions
 RUN apk upgrade --update && \
