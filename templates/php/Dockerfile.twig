@@ -7,6 +7,8 @@ RUN apk upgrade --update && \
     apk add --no-cache sqlite git openssh zip make openssl bash jq icu && \
     apk add --no-cache --virtual .build-deps libxml2-dev sqlite-dev curl-dev libzip-dev libpng-dev icu-dev $PHPIZE_DEPS
 
+RUN docker-php-ext-install zip bcmath sockets pdo pdo_mysql gd intl
+
 {% if version == '7.4' %}
 RUN pecl install xdebug-2.9.0
 {% else %}
@@ -17,14 +19,13 @@ RUN docker-php-ext-enable xdebug \
     && echo "xdebug.mode=debug" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
     && echo "xdebug.client_host=host.docker.internal" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
 
+RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
+COPY symfony.ini $PHP_INI_DIR/conf.d/symfony.ini
+
 ENV DOCKERIZE_VERSION v0.6.1
 RUN wget https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSION/dockerize-alpine-linux-amd64-$DOCKERIZE_VERSION.tar.gz \
     && tar -C /usr/local/bin -xzvf dockerize-alpine-linux-amd64-$DOCKERIZE_VERSION.tar.gz \
     && rm dockerize-alpine-linux-amd64-$DOCKERIZE_VERSION.tar.gz
-
-RUN docker-php-ext-install zip bcmath sockets pdo pdo_mysql gd intl
-RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
-COPY symfony.ini $PHP_INI_DIR/conf.d/symfony.ini
 
 # INSTALL COMPOSER
 RUN curl -s https://getcomposer.org/installer | php -- --install-dir=/usr/bin/ --filename=composer
