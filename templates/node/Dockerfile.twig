@@ -2,6 +2,8 @@ FROM {{ source }}:{{ version }}-{{ variant }}
 
 MAINTAINER "{{ maintainer|raw }}"
 
+ARG TARGETPLATFORM
+
 # Install custom extensions
 RUN apt-get update && apt-get install -y \
     make curl yarn wget zip git

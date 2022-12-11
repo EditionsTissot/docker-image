@@ -2,18 +2,6 @@ FROM {{ source }}:{{ version }}-{{ variant }}
 
 MAINTAINER "{{ maintainer|raw }}"
 
-ARG TARGETPLATFORM
-
-RUN if [ "$TARGETPLATFORM" = "linux/amd64" ]; then \
-    printf "I'm building for linux/amd64" \
-; fi
-
-RUN if [ "$TARGETPLATFORM" = "linux/arm64" ]; then \
-    printf "I'm building for linux/arm64" \
-; fi
-
-RUN printf "I'm building for TARGETPLATFORM=${TARGETPLATFORM}"
-
 # Install custom extensions
 RUN apk upgrade --update && \
     apk add --no-cache sqlite git openssh zip make openssl bash jq icu && \
