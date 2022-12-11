@@ -2,7 +2,9 @@ FROM {{ source }}:{{ version }}-{{ variant }}
 
 MAINTAINER "{{ maintainer|raw }}"
 
-RUN echo "$TARGETPLATFORM"
+ARG TARGETPLATFORM
+
+RUN printf "I'm building for TARGETPLATFORM=${TARGETPLATFORM}"
 
 # Install custom extensions
 RUN apk upgrade --update && \
