@@ -12,7 +12,7 @@ RUN docker-php-ext-install zip bcmath sockets pdo pdo_mysql gd intl
 {% if version == '7.4' %}
 RUN pecl install xdebug-2.9.0
 {% else %}
-RUN pecl install xdebug
+RUN pecl install xdebug-3.2.0
 {% endif %}
 
 RUN docker-php-ext-enable xdebug \
