@@ -2,6 +2,8 @@ FROM {{ source }}:{{ version }}-{{ variant }}
 
 MAINTAINER "{{ maintainer|raw }}"
 
+sh -c "echo $TARGETPLATFORM"
+
 # Install custom extensions
 RUN apk upgrade --update && \
     apk add --no-cache sqlite git openssh zip make openssl bash jq icu && \
