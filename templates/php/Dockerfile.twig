@@ -8,9 +8,9 @@ RUN apk upgrade --update && \
     apk add --no-cache --virtual .build-deps libxml2-dev sqlite-dev curl-dev libzip-dev libpng-dev icu-dev $PHPIZE_DEPS
 
 {% if version == '7.4' %}
-RUN apk add php7-pecl-xdebug
+RUN apk add php7-pecl-xdebug --repository=http://dl-cdn.alpinelinux.org/alpine/edge/testing/
 {% else %}
-RUN apk add php8-pecl-xdebug
+RUN apk add php8-pecl-xdebug --repository=http://dl-cdn.alpinelinux.org/alpine/edge/testing/
 {% endif %}
 
 RUN docker-php-ext-enable xdebug \
