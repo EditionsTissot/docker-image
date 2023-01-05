@@ -1,0 +1,17 @@
+{
+  "images": [
+    {
+      "name": "php-node",
+      "template": "php-node/Dockerfile.twig",
+      "source": "php",
+      "repository": "editionstissot/php-node",
+      "versions": [
+        "8.0",
+        "8.1"
+      ],
+      "variants": [
+        "playwright"
+      ]
+    }
+  ]
+}
