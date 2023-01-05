@@ -6,7 +6,9 @@
       "source": "alpine",
       "repository": "editionstissot/ansible",
       "versions": [
-        "3.15"
+        "3.15",
+        "3.16",
+        "3.17"
       ]
     }
   ]
