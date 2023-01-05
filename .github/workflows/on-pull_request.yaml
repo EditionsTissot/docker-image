@@ -23,6 +23,15 @@ jobs:
     secrets:
       DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
       DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
+  php-node:
+    if: ${{ contains( github.event.pull_request.labels.*.name, 'preview/php-node' ) }}
+    uses: EditionsTissot/docker-image/.github/workflows/image-docker.yaml@main
+    with:
+      language: php-node
+      pr_number: ${{ github.event.pull_request.number }}
+    secrets:
+      DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+      DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
 
   ansible:
     if: ${{ contains( github.event.pull_request.labels.*.name, 'preview/ansible' ) }}
