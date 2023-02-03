@@ -46,4 +46,5 @@ RUN rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
 /usr/share/doc/* /usr/share/groff/* /usr/share/info/*
 
 RUN mkdir -p /var/www/html
+RUN git config --global --add safe.directory /var/www/html
 WORKDIR /var/www/html
