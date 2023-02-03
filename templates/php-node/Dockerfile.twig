@@ -14,7 +14,7 @@ RUN apt-get update -y && apt-get install -y \
 RUN npm install --global yarn npm npx
 
 # Install Playwright
-RUN yarn global add @playwright/test
+RUN yarn global add @playwright/test && npm install -g @playwright/test
 RUN npx playwright install
 RUN npx playwright install-deps
 
