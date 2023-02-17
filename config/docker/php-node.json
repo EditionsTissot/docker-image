@@ -7,7 +7,8 @@
       "repository": "editionstissot/php-node",
       "versions": [
         "8.0",
-        "8.1"
+        "8.1",
+        "8.2"
       ],
       "variants": [
         "playwright"
