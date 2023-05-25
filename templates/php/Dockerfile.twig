@@ -5,7 +5,7 @@ MAINTAINER "{{ maintainer|raw }}"
 # Install custom extensions
 {% if variant == 'alpine' or variant == 'fpm-alpine' %}
 RUN apk upgrade --update && \
-    apk add --no-cache sqlite git openssh zip make openssl bash jq icu mysql && \
+    apk add --no-cache sqlite git openssh zip make openssl bash jq icu mysql-client && \
     apk add --no-cache --virtual .build-deps rabbitmq-c rabbitmq-c-dev libxml2-dev sqlite-dev curl-dev libzip-dev libpng-dev icu-dev $PHPIZE_DEPS && \
     apk add --update linux-headers
 
