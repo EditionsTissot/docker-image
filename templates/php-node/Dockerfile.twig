@@ -3,7 +3,7 @@ FROM {{ source }}:{{ version }}-fpm
 MAINTAINER "{{ maintainer|raw }}"
 
 # Node JS repo
-RUN curl -s https://deb.nodesource.com/setup_16.x | bash
+RUN curl -s https://deb.nodesource.com/setup_18.x | bash
 
 # Install dependencies
 RUN apt-get update -y && apt-get install -y \
