@@ -1,5 +1,7 @@
 FROM php:{{ version }}-fpm
 
+MAINTAINER "{{ maintainer|raw }}"
+
 # Node JS repo
 RUN curl -s https://deb.nodesource.com/setup_16.x | bash
 # Install dependencies
