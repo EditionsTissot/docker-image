@@ -39,12 +39,14 @@ RUN curl -LsS https://get.symfony.com/cli/installer | bash \
     && symfony server:ca:install
 
 # install chrome
-# install chrome
-RUN cd && wget -O google-chrome-stable_current_amd64.deb -t 5 "https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb" \
-    && (dpkg -i google-chrome-stable_current_amd64.deb || apt-get -fy install)  \
-    && rm -rf google-chrome-stable_current_amd64.deb \
-    && sed -i 's|HERE/chrome"|HERE/chrome" --disable-setuid-sandbox --no-sandbox|g' \
-    "/opt/google/chrome/google-chrome" \
+ARG CHROME_VERSION="google-chrome-stable"
+RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add - \
+    && echo "deb http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google-chrome.list \
+    && apt-get update -qqy \
+    && apt-get -qqy install \
+    ${CHROME_VERSION:-google-chrome-stable} \
+    && rm /etc/apt/sources.list.d/google-chrome.list \
+    && rm -rf /var/lib/apt/lists/* /var/cache/apt/* \
     && google-chrome --version
 
 RUN CHROME_VERSION="$(google-chrome --version)" \
@@ -59,7 +61,7 @@ RUN CHROME_VERSION="$(google-chrome --version)" \
     && chromedriver --version
 
 # Cypress dependencies
-RUN yarn global add cypress@13.4.0 && cypress install --force
+RUN yarn global add cypress@10.11.0 && cypress install --force
 
 # CLEAN
 RUN rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
