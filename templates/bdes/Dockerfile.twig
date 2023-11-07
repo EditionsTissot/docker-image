@@ -61,7 +61,7 @@ RUN CHROME_VERSION="$(google-chrome --version)" \
     && chromedriver --version
 
 # Cypress dependencies
-RUN yarn global add cypress@10.11.0 && cypress install --force
+RUN yarn global add cypress@13.4.0 && cypress install --force
 
 # CLEAN
 RUN rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
