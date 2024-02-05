@@ -26,25 +26,8 @@ RUN chmod +x /usr/local/bin/install-php-extensions
 
 RUN apt update && \
     apt --no-install-recommends --no-install-suggests --yes --quiet install \
-        apt-transport-https \
-        apt-utils \
-        bash-completion \
-        ca-certificates \
-        git \
         gnupg \
-        imagemagick \
-        libnss3-tools \
-        less \
-        make \
-        mysql-client \
-        nano \
-        software-properties-common \
-        sudo \
-        zip \
-        unzip \
-        vim \
-        zsh \
-        wget
+        imagemagick
 
 RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
 COPY symfony.ini $PHP_INI_DIR/conf.d/symfony.ini
