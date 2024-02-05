@@ -24,29 +24,27 @@ RUN docker-php-ext-install zip bcmath sockets pdo pdo_mysql gd bz2
 ADD https://github.com/mlocati/docker-php-extension-installer/releases/latest/download/install-php-extensions /usr/local/bin/
 RUN chmod +x /usr/local/bin/install-php-extensions
 
-RUN apt-get install software-properties-common
-
-RUN add-apt-repository -y ppa:ondrej/php
-
-RUN apt --no-install-recommends --no-install-suggests --yes --quiet install \
-        php{{ version }}-apcu \
-        php{{ version }}-bcmath \
-        php{{ version }}-bz2 \
-        php{{ version }}-cli \
-        php{{ version }}-common \
-        php{{ version }}-curl \
-        php{{ version }}-ctype \
-        php{{ version }}-dev \
-        php{{ version }}-gd \
-        php{{ version }}-gnupg \
-        php{{ version }}-imagick \
-        php{{ version }}-intl \
-        php{{ version }}-ldap \
-        php{{ version }}-mbstring \
-        php{{ version }}-mysql \
-        php{{ version }}-xml \
-        php{{ version }}-zip \
-        php{{ version }}-xdebug
+RUN apt update && \
+    apt --no-install-recommends --no-install-suggests --yes --quiet install \
+        apt-transport-https \
+        apt-utils \
+        bash-completion \
+        ca-certificates \
+        git \
+        gnupg \
+        imagemagick \
+        libnss3-tools \
+        less \
+        make \
+        mysql-client \
+        nano \
+        software-properties-common \
+        sudo \
+        zip \
+        unzip \
+        vim \
+        zsh \
+        wget
 
 RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
 COPY symfony.ini $PHP_INI_DIR/conf.d/symfony.ini
