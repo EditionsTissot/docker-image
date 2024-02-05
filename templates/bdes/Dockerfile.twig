@@ -27,7 +27,7 @@ RUN chmod +x /usr/local/bin/install-php-extensions
 RUN apt update && \
     apt --no-install-recommends --no-install-suggests --yes --quiet install \
         gnupg \
-        imagemagick
+        imagick
 
 RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
 COPY symfony.ini $PHP_INI_DIR/conf.d/symfony.ini
