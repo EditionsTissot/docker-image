@@ -22,8 +22,27 @@ RUN docker-php-ext-install zip bcmath sockets pdo pdo_mysql gd bz2
 
 # Add `install-php-extensions` from https://github.com/mlocati/docker-php-extension-installer
 ADD https://github.com/mlocati/docker-php-extension-installer/releases/latest/download/install-php-extensions /usr/local/bin/
-RUN chmod +x /usr/local/bin/install-php-extensions && \
-    install-php-extensions imagick gnupg
+RUN chmod +x /usr/local/bin/install-php-extensions
+
+RUN apt --no-install-recommends --no-install-suggests --yes --quiet install \
+        php{{ version }}-apcu \
+        php{{ version }}-bcmath \
+        php{{ version }}-bz2 \
+        php{{ version }}-cli \
+        php{{ version }}-common \
+        php{{ version }}-curl \
+        php{{ version }}-ctype \
+        php{{ version }}-dev \
+        php{{ version }}-gd \
+        php{{ version }}-gnupg \
+        php{{ version }}-imagick \
+        php{{ version }}-intl \
+        php{{ version }}-ldap \
+        php{{ version }}-mbstring \
+        php{{ version }}-mysql \
+        php{{ version }}-xml \
+        php{{ version }}-zip \
+        php{{ version }}-xdebug
 
 RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
 COPY symfony.ini $PHP_INI_DIR/conf.d/symfony.ini
