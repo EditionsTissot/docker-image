@@ -24,6 +24,8 @@ RUN docker-php-ext-install zip bcmath sockets pdo pdo_mysql gd bz2
 ADD https://github.com/mlocati/docker-php-extension-installer/releases/latest/download/install-php-extensions /usr/local/bin/
 RUN chmod +x /usr/local/bin/install-php-extensions
 
+RUN apt-get install software-properties-common
+
 RUN add-apt-repository -y ppa:ondrej/php
 
 RUN apt --no-install-recommends --no-install-suggests --yes --quiet install \
