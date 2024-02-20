@@ -9,6 +9,8 @@ RUN apt-get update -y && apt-get install -y \
     libsqlite3-dev libzip-dev libpng-dev libgd3 make curl wget git unzip libbz2-dev default-mysql-client \
     libgtk2.0-0 libgtk-3-0 libgbm-dev libnotify-dev libgconf-2-4 libnss3 libxss1 libasound2 libxtst6 xauth xvfb sudo nodejs g++ gcc
 
+RUN docker-php-ext-install intl
+
 # Install yarn
 RUN npm install --global yarn
 
