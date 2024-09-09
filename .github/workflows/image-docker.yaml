@@ -58,10 +58,10 @@ jobs:
         run: vendor/bin/requirements-checker
 
       - name: Generate docker template
-        run: bin/console app:docker:generate $LANGUAGE
+        run: bin/console app:docker:generate ${{ env.LANGUAGE }}
 
       - name: Generate matrix json file
-        run: bin/console app:gha:matrix $LANGUAGE
+        run: bin/console app:gha:matrix ${{ env.LANGUAGE }}
 
       - uses: actions/upload-artifact@v4
         with:
@@ -97,4 +97,4 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       # —— Bash ——————————————————————————————————————————————————————————
       - name: Build docker image
-        run: ./scripts/build_one.sh ${{ matrix.repository }} $LANGUAGE ${{ matrix.versions }} ${{ matrix.variants }}
+        run: ./scripts/build_one.sh ${{ matrix.repository }} ${{ env.LANGUAGE }} ${{ matrix.versions }} ${{ matrix.variants }}
