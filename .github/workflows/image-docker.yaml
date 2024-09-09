@@ -26,7 +26,7 @@ jobs:
       matrix: ${{ steps.set-matrix.outputs.matrix }}
     steps:
       - name: checkout repo
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Setup PHP with PECL extension
         uses: shivammathur/setup-php@v2
@@ -43,7 +43,7 @@ jobs:
         run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
 
       - name: Cache composer dependencies
-        uses: actions/cache@v2
+        uses: actions/cache@v4
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
@@ -63,7 +63,7 @@ jobs:
       - name: Generate matrix json file
         run: bin/console app:gha:matrix $LANGUAGE
 
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         with:
           name: templates
           path: .render/
@@ -81,8 +81,8 @@ jobs:
       matrix: ${{fromJson(needs.create.outputs.matrix)}}
     steps:
       - name: checkout repo
-        uses: actions/checkout@v3
-      - uses: actions/download-artifact@v3
+        uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
         with:
           name: templates
           path: .render/
