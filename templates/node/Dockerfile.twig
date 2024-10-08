@@ -4,7 +4,7 @@ MAINTAINER "{{ maintainer|raw }}"
 
 # Install custom extensions
 RUN apt-get update && apt-get install -y \
-    make curl yarn wget zip git
+    make curl yarn wget zip git jq
 
 {% if option == 'chrome' %}
 # Cypress dependencies
