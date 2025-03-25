@@ -30,11 +30,12 @@ then
   exit 0
 fi
 
+docker buildx create --use
+
+# Utiliser docker buildx pour construire des images multi-architectures
 if test "$PR_NUMBER"
 then
-  docker build --pull -t "$tagName" --label "$tagName" -f "$path" $RENDER_DIR
-  docker push "$repo" --all-tags
+  docker buildx build --pull --platform linux/amd64,linux/arm64 -t "$tagName" --label "$tagName" -f "$path" $RENDER_DIR --push
 else
-  docker build --pull -t "$tagName-latest" -t "$tagName-$(date +'%Y%m%d')" --label "$tagName-$(date +'%Y%m%d')" -f "$path" $RENDER_DIR
-  docker push "$repo" --all-tags
+  docker buildx build --pull --platform linux/amd64,linux/arm64 -t "$tagName-latest" -t "$tagName-$(date +'%Y%m%d')" --label "$tagName-$(date +'%Y%m%d')" -f "$path" $RENDER_DIR --push
 fi
