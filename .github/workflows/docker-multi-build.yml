@@ -19,7 +19,7 @@ jobs:
           # BDESE
           - { path: './bdes/8.3.Dockerfile', tag: 'editionstissot/bdes:8.3-latest', platforms: 'linux/amd64' }
           # OF
-          - { path: './of/8.3.Dockerfile', tag: 'editionstissot/of:8.3-latest', platforms: 'linux/amd64,linux/arm64' }
+          - { path: './of/8.2.Dockerfile', tag: 'editionstissot/of:8.2-latest', platforms: 'linux/amd64,linux/arm64' }
           # PHP
           - { path: './php/8.0.alpine.Dockerfile', tag: 'editionstissot/php:8.0-alpine-latest', platforms: 'linux/amd64,linux/arm64' }
           - { path: './php/8.1.alpine.Dockerfile', tag: 'editionstissot/php:8.1-alpine-latest', platforms: 'linux/amd64,linux/arm64' }
