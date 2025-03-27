@@ -33,7 +33,7 @@ RUN chmod +x /usr/local/bin/install-php-extensions && \
     install-php-extensions gnupg
 
 RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
-COPY symfony.ini $PHP_INI_DIR/conf.d/symfony.ini
+COPY bdes/symfony.ini $PHP_INI_DIR/conf.d/symfony.ini
 RUN ln -sf /usr/share/zoneinfo/Europre/Paris /etc/localtime
 
 # INSTALL COMPOSER
