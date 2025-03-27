@@ -27,7 +27,7 @@ RUN apk update \
 && docker-php-ext-enable tidy
 
 RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
-COPY symfony.ini $PHP_INI_DIR/conf.d/symfony.ini
+COPY of/symfony.ini $PHP_INI_DIR/conf.d/symfony.ini
 
 # INSTALL COMPOSER
 RUN curl -s https://getcomposer.org/installer | php -- --install-dir=/usr/bin/ --filename=composer
