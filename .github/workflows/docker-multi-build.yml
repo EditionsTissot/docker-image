@@ -3,7 +3,7 @@ name: Build and Push Docker Images
 on:
   push:
     branches:
-      - main  # Comportement actuel conservé
+      - main
 
   # AJOUT : Déclencheur pour un lancement manuel
   workflow_dispatch:
@@ -53,19 +53,8 @@ jobs:
   build-and-push:
     runs-on: ubuntu-latest
 
-    # AJOUT : Condition pour lancer le job
-    # Le job ne s'exécutera que si :
-    # 1. Le déclencheur est un push sur 'main' (comportement original).
-    # 2. OU le déclencheur est manuel ET l'option 'all' a été choisie.
-    # 3. OU le déclencheur est manuel ET le tag de l'image du job correspond à l'input.
-    if: |
-      github.event_name == 'push' ||
-      (github.event_name == 'workflow_dispatch' && (
-        github.event.inputs.image_tag == 'all' ||
-        github.event.inputs.image_tag == matrix.dockerfile.tag
-      ))
-
     strategy:
+      fail-fast: false # Optionnel : empêche l'annulation des autres jobs si un job de la matrice échoue.
       matrix:
         dockerfile:
           # Ansible
@@ -110,12 +99,26 @@ jobs:
         uses: docker/setup-buildx-action@v2
 
       - name: Log in to Docker Hub
+        # AJOUT : La condition est maintenant ici
+        if: |
+          github.event_name == 'push' ||
+          (github.event_name == 'workflow_dispatch' && (
+            github.event.inputs.image_tag == 'all' ||
+            github.event.inputs.image_tag == matrix.dockerfile.tag
+          ))
         uses: docker/login-action@v3
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Build and push Docker image
+        # AJOUT : La condition est également ici
+        if: |
+          github.event_name == 'push' ||
+          (github.event_name == 'workflow_dispatch' && (
+            github.event.inputs.image_tag == 'all' ||
+            github.event.inputs.image_tag == matrix.dockerfile.tag
+          ))
         uses: docker/build-push-action@v5
         with:
           context: .
