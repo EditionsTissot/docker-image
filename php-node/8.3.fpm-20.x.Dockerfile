@@ -6,7 +6,11 @@ RUN curl -s https://deb.nodesource.com/setup_20.x | bash
 # Install dependencies
 RUN apt-get update -y && apt-get install -y \
     libsqlite3-dev libzip-dev libpng-dev libgd3 make curl wget git nodejs unzip libbz2-dev default-mysql-client \
-    libgtk2.0-0 libgtk-3-0 libgbm-dev libnotify-dev libgconf-2-4 libnss3 libxss1 libasound2 libxtst6 sudo libicu-dev nodejs
+    libgtk2.0-0 libgtk-3-0 libgbm-dev libnotify-dev libgconf-2-4 libnss3 libxss1 libasound2 libxtst6 sudo libicu-dev librabbitmq-dev
+
+RUN docker-php-ext-install zip bcmath sockets pdo pdo_mysql gd intl calendar
+RUN pecl install xdebug amqp \
+&& docker-php-ext-enable xdebug amqp
 
 # Install yarn npm npx
 RUN npm install --global yarn npm npx
