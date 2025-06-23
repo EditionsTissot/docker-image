@@ -1,7 +1,7 @@
-FROM php:8.0-fpm
+FROM php:8.3-fpm
 
 # Node JS repo
-RUN curl -s https://deb.nodesource.com/setup_18.x | bash
+RUN curl -s https://deb.nodesource.com/setup_20.x | bash
 
 # Install dependencies
 RUN apt-get update -y && apt-get install -y \
@@ -10,11 +10,6 @@ RUN apt-get update -y && apt-get install -y \
 
 # Install yarn npm npx
 RUN npm install --global yarn npm npx
-
-# Install Playwright
-RUN yarn global add @playwright/test
-RUN npx playwright install
-RUN npx playwright install-deps
 
 # Install dockerize to wait mysql
 ENV DOCKERIZE_VERSION v0.6.1
