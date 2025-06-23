@@ -3,11 +3,68 @@ name: Build and Push Docker Images
 on:
   push:
     branches:
-      - main  # Trigger the workflow on push to the main branch
+      - main  # Comportement actuel conservé
+
+  # AJOUT : Déclencheur pour un lancement manuel
+  workflow_dispatch:
+    inputs:
+      image_tag:
+        description: 'Which image to build? (select "all" to build everything)'
+        required: true
+        type: choice
+        default: 'all' # Option par défaut
+        options:
+          - all
+          # Ansible
+          - 'editionstissot/ansible:3.15-latest'
+          - 'editionstissot/ansible:3.16-latest'
+          - 'editionstissot/ansible:3.17-latest'
+          - 'editionstissot/ansible:3.22-latest'
+          # BDESE
+          - 'editionstissot/bdes:8.3-latest'
+          # OF
+          - 'editionstissot/of:8.2-latest'
+          # PHP
+          - 'editionstissot/php:8.0-alpine-latest'
+          - 'editionstissot/php:8.1-alpine-latest'
+          - 'editionstissot/php:8.2-alpine-latest'
+          - 'editionstissot/php:8.3-alpine-latest'
+          # PHP - FPM
+          - 'editionstissot/php:8.0-fpm-alpine-latest'
+          - 'editionstissot/php:8.1-fpm-alpine-latest'
+          - 'editionstissot/php:8.2-fpm-alpine-latest'
+          - 'editionstissot/php:8.3-fpm-alpine-latest'
+          # PHP - Node
+          - 'editionstissot/php-node:8.0-playwright-latest'
+          - 'editionstissot/php-node:8.1-playwright-latest'
+          - 'editionstissot/php-node:8.2-playwright-latest'
+          - 'editionstissot/php-node:8.3-playwright-latest'
+          - 'editionstissot/php-node:8.3-fpm-20.x-latest'
+          # Node
+          - 'editionstissot/node:16-slim-latest'
+          - 'editionstissot/node:18-slim-latest'
+          - 'editionstissot/node:20-slim-latest'
+          # Node - chrome
+          - 'editionstissot/node:16-slim-chrome-latest'
+          - 'editionstissot/node:18-slim-chrome-latest'
+          - 'editionstissot/node:20-slim-chrome-latest'
 
 jobs:
   build-and-push:
     runs-on: ubuntu-latest
+
+    # AJOUT : Condition pour lancer le job
+    # Le job ne s'exécutera que si :
+    # 1. Le déclencheur est un push sur 'main' (comportement original).
+    # 2. OU le déclencheur est manuel ET l'option 'all' a été choisie.
+    # 3. OU le déclencheur est manuel ET le tag de l'image du job correspond à l'input.
+    if: |
+      github.event_name == 'push' ||
+      (github.event_name == 'workflow_dispatch' && (
+        github.event.inputs.image_tag == 'all' ||
+        github.event.inputs.image_tag == matrix.dockerfile.tag
+      ))
+
     strategy:
       matrix:
         dockerfile:
@@ -30,7 +87,7 @@ jobs:
           - { path: './php/8.1.fpm-alpine.Dockerfile', tag: 'editionstissot/php:8.1-fpm-alpine-latest', platforms: 'linux/amd64,linux/arm64' }
           - { path: './php/8.2.fpm-alpine.Dockerfile', tag: 'editionstissot/php:8.2-fpm-alpine-latest', platforms: 'linux/amd64,linux/arm64' }
           - { path: './php/8.3.fpm-alpine.Dockerfile', tag: 'editionstissot/php:8.3-fpm-alpine-latest', platforms: 'linux/amd64,linux/arm64' }
-          # PHP
+          # PHP-Node
           - { path: './php-node/8.0.playwright.Dockerfile', tag: 'editionstissot/php-node:8.0-playwright-latest', platforms: 'linux/amd64,linux/arm64' }
           - { path: './php-node/8.1.playwright.Dockerfile', tag: 'editionstissot/php-node:8.1-playwright-latest', platforms: 'linux/amd64,linux/arm64' }
           - { path: './php-node/8.2.playwright.Dockerfile', tag: 'editionstissot/php-node:8.2-playwright-latest', platforms: 'linux/amd64,linux/arm64' }
