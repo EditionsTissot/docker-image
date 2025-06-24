@@ -1,10 +1,6 @@
 name: Build and Push Docker Images
 
 on:
-  push:
-    branches:
-      - main
-
   # AJOUT : Déclencheur pour un lancement manuel
   workflow_dispatch:
     inputs:
@@ -119,7 +115,7 @@ jobs:
             github.event.inputs.image_tag == 'all' ||
             github.event.inputs.image_tag == matrix.dockerfile.tag
           ))
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v6
         with:
           context: .
           file: ${{ matrix.dockerfile.path }}
