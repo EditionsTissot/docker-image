@@ -38,6 +38,7 @@ on:
           - 'editionstissot/php-node:8.2-playwright-latest'
           - 'editionstissot/php-node:8.3-playwright-latest'
           - 'editionstissot/php-node:8.3-fpm-20.x-latest'
+          - 'editionstissot/php-node:8.4-fpm-20.x-latest'
           # Node
           - 'editionstissot/node:16-slim-latest'
           - 'editionstissot/node:18-slim-latest'
@@ -82,6 +83,7 @@ jobs:
           - { path: './php-node/8.2.playwright.Dockerfile', tag: 'editionstissot/php-node:8.2-playwright-latest', platforms: 'linux/amd64,linux/arm64' }
           - { path: './php-node/8.3.playwright.Dockerfile', tag: 'editionstissot/php-node:8.3-playwright-latest', platforms: 'linux/amd64,linux/arm64' }
           - { path: './php-node/8.3.fpm-20.x.Dockerfile', tag: 'editionstissot/php-node:8.3-fpm-20.x-latest', platforms: 'linux/amd64,linux/arm64' }
+          - { path: './php-node/8.4.fpm-20.x.Dockerfile', tag: 'editionstissot/php-node:8.4-fpm-20.x-latest', platforms: 'linux/amd64,linux/arm64' }
           # Node
           - { path: './node/16.slim.Dockerfile', tag: 'editionstissot/node:16-slim-latest', platforms: 'linux/amd64,linux/arm64' }
           - { path: './node/18.slim.Dockerfile', tag: 'editionstissot/node:18-slim-latest', platforms: 'linux/amd64,linux/arm64' }
