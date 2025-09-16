@@ -26,4 +26,5 @@ RUN mkdir ~/.ssh && ssh-keyscan github.com >> ~/.ssh/known_hosts
 RUN wget https://get.symfony.com/cli/installer -O - | bash
 RUN mv /root/.symfony5/bin/symfony /usr/local/bin/symfony
 
+# Cleanup
 RUN rm -rf /tmp/* /usr/local/lib/php/doc/* /var/cache/apk/*
