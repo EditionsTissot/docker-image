@@ -34,7 +34,7 @@ RUN chmod +x /usr/local/bin/install-php-extensions && \
 
 RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
 COPY bdes/symfony.ini $PHP_INI_DIR/conf.d/symfony.ini
-RUN ln -sf /usr/share/zoneinfo/Europre/Paris /etc/localtime
+RUN ln -sf /usr/share/zoneinfo/Europe/Paris /etc/localtime
 
 # INSTALL COMPOSER
 RUN curl -s https://getcomposer.org/installer | php -- --install-dir=/usr/bin/ --filename=composer
