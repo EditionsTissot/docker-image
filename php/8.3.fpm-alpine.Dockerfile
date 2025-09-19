@@ -11,7 +11,7 @@ RUN wget https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSI
     && tar -C /usr/local/bin -xzvf dockerize-alpine-linux-amd64-$DOCKERIZE_VERSION.tar.gz \
     && rm dockerize-alpine-linux-amd64-$DOCKERIZE_VERSION.tar.gz
 
-RUN docker-php-ext-install zip bcmath sockets pdo pdo_mysql gd intl calendar
+RUN docker-php-ext-install zip bcmath sockets pdo pdo_mysql gd intl calendar exif
 RUN pecl install xdebug amqp \
     && docker-php-ext-enable xdebug amqp
 RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
