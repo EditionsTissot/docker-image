@@ -18,28 +18,39 @@ on:
           - 'editionstissot/ansible:3.22-latest'
           # BDESE
           - 'editionstissot/bdes:8.3-latest'
+          - 'editionstissot/bdes:8.4-latest'
+          - 'editionstissot/bdes:8.5-latest'
           # OF
           - 'editionstissot/of:8.2-latest'
+          - 'editionstissot/of:8.3-latest'
+          - 'editionstissot/of:8.4-latest'
+          - 'editionstissot/of:8.5-latest'
           # PHP
           - 'editionstissot/php:8.0-alpine-latest'
           - 'editionstissot/php:8.1-alpine-latest'
           - 'editionstissot/php:8.2-alpine-latest'
           - 'editionstissot/php:8.3-alpine-latest'
           - 'editionstissot/php:8.4-alpine-latest'
+          - 'editionstissot/php:8.5-alpine-latest'
           # PHP - FPM
           - 'editionstissot/php:8.0-fpm-alpine-latest'
           - 'editionstissot/php:8.1-fpm-alpine-latest'
           - 'editionstissot/php:8.2-fpm-alpine-latest'
           - 'editionstissot/php:8.3-fpm-alpine-latest'
           - 'editionstissot/php:8.4-fpm-alpine-latest'
+          - 'editionstissot/php:8.5-fpm-alpine-latest'
           # PHP - Node
           - 'editionstissot/php-node:8.0-playwright-latest'
           - 'editionstissot/php-node:8.1-playwright-latest'
           - 'editionstissot/php-node:8.2-playwright-latest'
           - 'editionstissot/php-node:8.3-playwright-latest'
           - 'editionstissot/php-node:8.3-fpm-20.x-latest'
+          - 'editionstissot/php-node:8.4-playwright-latest'
           - 'editionstissot/php-node:8.4-fpm-20.x-latest'
           - 'editionstissot/php-node:8.4-fpm-22.x-latest'
+          - 'editionstissot/php-node:8.5-playwright-latest'
+          - 'editionstissot/php-node:8.5-fpm-20.x-latest'
+          - 'editionstissot/php-node:8.5-fpm-22.x-latest'
           # Node
           - 'editionstissot/node:16-slim-latest'
           - 'editionstissot/node:18-slim-latest'
@@ -64,28 +75,39 @@ jobs:
           - { path: './ansible/3.22.Dockerfile', tag: 'editionstissot/ansible:3.22-latest', platforms: 'linux/amd64,linux/arm64' }
           # BDESE
           - { path: './bdes/8.3.Dockerfile', tag: 'editionstissot/bdes:8.3-latest', platforms: 'linux/amd64' }
+          - { path: './bdes/8.4.Dockerfile', tag: 'editionstissot/bdes:8.4-latest', platforms: 'linux/amd64' }
+          - { path: './bdes/8.5.Dockerfile', tag: 'editionstissot/bdes:8.5-latest', platforms: 'linux/amd64' }
           # OF
           - { path: './of/8.2.Dockerfile', tag: 'editionstissot/of:8.2-latest', platforms: 'linux/amd64,linux/arm64' }
+          - { path: './of/8.3.Dockerfile', tag: 'editionstissot/of:8.3-latest', platforms: 'linux/amd64,linux/arm64' }
+          - { path: './of/8.4.Dockerfile', tag: 'editionstissot/of:8.4-latest', platforms: 'linux/amd64,linux/arm64' }
+          - { path: './of/8.5.Dockerfile', tag: 'editionstissot/of:8.5-latest', platforms: 'linux/amd64,linux/arm64' }
           # PHP
           - { path: './php/8.0.alpine.Dockerfile', tag: 'editionstissot/php:8.0-alpine-latest', platforms: 'linux/amd64,linux/arm64' }
           - { path: './php/8.1.alpine.Dockerfile', tag: 'editionstissot/php:8.1-alpine-latest', platforms: 'linux/amd64,linux/arm64' }
           - { path: './php/8.2.alpine.Dockerfile', tag: 'editionstissot/php:8.2-alpine-latest', platforms: 'linux/amd64,linux/arm64' }
           - { path: './php/8.3.alpine.Dockerfile', tag: 'editionstissot/php:8.3-alpine-latest', platforms: 'linux/amd64,linux/arm64' }
           - { path: './php/8.4.alpine.Dockerfile', tag: 'editionstissot/php:8.4-alpine-latest', platforms: 'linux/amd64,linux/arm64' }
+          - { path: './php/8.5.alpine.Dockerfile', tag: 'editionstissot/php:8.5-alpine-latest', platforms: 'linux/amd64,linux/arm64' }
           # PHP - FPM
           - { path: './php/8.0.fpm-alpine.Dockerfile', tag: 'editionstissot/php:8.0-fpm-alpine-latest', platforms: 'linux/amd64,linux/arm64' }
           - { path: './php/8.1.fpm-alpine.Dockerfile', tag: 'editionstissot/php:8.1-fpm-alpine-latest', platforms: 'linux/amd64,linux/arm64' }
           - { path: './php/8.2.fpm-alpine.Dockerfile', tag: 'editionstissot/php:8.2-fpm-alpine-latest', platforms: 'linux/amd64,linux/arm64' }
           - { path: './php/8.3.fpm-alpine.Dockerfile', tag: 'editionstissot/php:8.3-fpm-alpine-latest', platforms: 'linux/amd64,linux/arm64' }
           - { path: './php/8.4.fpm-alpine.Dockerfile', tag: 'editionstissot/php:8.4-fpm-alpine-latest', platforms: 'linux/amd64,linux/arm64' }
+          - { path: './php/8.5.fpm-alpine.Dockerfile', tag: 'editionstissot/php:8.5-fpm-alpine-latest', platforms: 'linux/amd64,linux/arm64' }
           # PHP-Node
           - { path: './php-node/8.0.playwright.Dockerfile', tag: 'editionstissot/php-node:8.0-playwright-latest', platforms: 'linux/amd64,linux/arm64' }
           - { path: './php-node/8.1.playwright.Dockerfile', tag: 'editionstissot/php-node:8.1-playwright-latest', platforms: 'linux/amd64,linux/arm64' }
           - { path: './php-node/8.2.playwright.Dockerfile', tag: 'editionstissot/php-node:8.2-playwright-latest', platforms: 'linux/amd64,linux/arm64' }
           - { path: './php-node/8.3.playwright.Dockerfile', tag: 'editionstissot/php-node:8.3-playwright-latest', platforms: 'linux/amd64,linux/arm64' }
           - { path: './php-node/8.3.fpm-20.x.Dockerfile', tag: 'editionstissot/php-node:8.3-fpm-20.x-latest', platforms: 'linux/amd64,linux/arm64' }
+          - { path: './php-node/8.4.playwright.Dockerfile', tag: 'editionstissot/php-node:8.4-playwright-latest', platforms: 'linux/amd64,linux/arm64' }
           - { path: './php-node/8.4.fpm-20.x.Dockerfile', tag: 'editionstissot/php-node:8.4-fpm-20.x-latest', platforms: 'linux/amd64,linux/arm64' }
           - { path: './php-node/8.4.fpm-22.x.Dockerfile', tag: 'editionstissot/php-node:8.4-fpm-22.x-latest', platforms: 'linux/amd64,linux/arm64' }
+          - { path: './php-node/8.5.playwright.Dockerfile', tag: 'editionstissot/php-node:8.5-playwright-latest', platforms: 'linux/amd64,linux/arm64' }
+          - { path: './php-node/8.5.fpm-20.x.Dockerfile', tag: 'editionstissot/php-node:8.5-fpm-20.x-latest', platforms: 'linux/amd64,linux/arm64' }
+          - { path: './php-node/8.5.fpm-22.x.Dockerfile', tag: 'editionstissot/php-node:8.5-fpm-22.x-latest', platforms: 'linux/amd64,linux/arm64' }
           # Node
           - { path: './node/16.slim.Dockerfile', tag: 'editionstissot/node:16-slim-latest', platforms: 'linux/amd64,linux/arm64' }
           - { path: './node/18.slim.Dockerfile', tag: 'editionstissot/node:18-slim-latest', platforms: 'linux/amd64,linux/arm64' }

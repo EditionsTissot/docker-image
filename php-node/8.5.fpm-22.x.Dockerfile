@@ -1,28 +1,23 @@
-FROM php:8.2-fpm
+FROM php:8.5-fpm
 
 # Node JS repo
-RUN curl -s https://deb.nodesource.com/setup_18.x | bash
+RUN curl -s https://deb.nodesource.com/setup_22.x | bash
 
 # Install dependencies
 RUN apt-get update -y && apt-get install -y \
     libsqlite3-dev libzip-dev libpng-dev libgd3 make curl wget git nodejs unzip libbz2-dev default-mysql-client \
-    libgtk2.0-0 libgtk-3-0 libgbm-dev libnotify-dev libgconf-2-4 libnss3 libxss1 libasound2 libxtst6 sudo libicu-dev nodejs
+    libgtk2.0-0 libgtk-3-0 libgbm-dev libnotify-dev libnss3 libxss1 libasound2 libxtst6 sudo libicu-dev librabbitmq-dev
 
 # Install yarn npm npx
 RUN npm install --global yarn npm npx
 
-# Install Playwright
-RUN yarn global add @playwright/test
-RUN npx playwright install
-RUN npx playwright install-deps
-
 # Install dockerize to wait mysql
-ENV DOCKERIZE_VERSION v0.6.1
+ENV DOCKERIZE_VERSION v0.9.6
 RUN wget https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSION/dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz \
     && tar -C /usr/local/bin -xzvf dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz \
     && rm dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz
 
-RUN docker-php-ext-install zip bcmath sockets pdo pdo_mysql gd intl calendar
+RUN docker-php-ext-install zip bcmath sockets pdo pdo_mysql gd intl calendar exif
 RUN pecl install xdebug amqp \
 && docker-php-ext-enable xdebug amqp
 

@@ -1,4 +1,4 @@
-FROM php:8.0-alpine
+FROM php:8.5-alpine
 
 # Install custom extensions
 RUN apk upgrade --update && \
@@ -11,7 +11,7 @@ RUN wget https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSI
     && tar -C /usr/local/bin -xzvf dockerize-alpine-linux-amd64-$DOCKERIZE_VERSION.tar.gz \
     && rm dockerize-alpine-linux-amd64-$DOCKERIZE_VERSION.tar.gz
 
-RUN docker-php-ext-install zip bcmath sockets pdo pdo_mysql gd intl calendar
+RUN docker-php-ext-install zip bcmath sockets pdo pdo_mysql gd intl calendar exif
 RUN pecl install xdebug amqp \
     && docker-php-ext-enable xdebug amqp
 RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
@@ -26,6 +26,7 @@ RUN mkdir ~/.ssh && ssh-keyscan github.com >> ~/.ssh/known_hosts
 RUN wget https://get.symfony.com/cli/installer -O - | bash
 RUN mv /root/.symfony5/bin/symfony /usr/local/bin/symfony
 
+# Cleanup
 RUN rm -rf /tmp/* /usr/local/lib/php/doc/* /var/cache/apk/*
 
 RUN mkdir -p /home/docker/www

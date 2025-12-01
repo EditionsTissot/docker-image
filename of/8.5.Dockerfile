@@ -1,4 +1,4 @@
-FROM php:8.2-fpm-alpine
+FROM php:8.5-fpm-alpine
 
 RUN echo 'http://dl-cdn.alpinelinux.org/alpine/v3.6/community' >> /etc/apk/repositories
 

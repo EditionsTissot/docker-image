@@ -38,6 +38,6 @@ RUN curl -LsS https://get.symfony.com/cli/installer | bash \
 RUN rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
 /usr/share/doc/* /usr/share/groff/* /usr/share/info/*
 
-RUN mkdir -p /var/www/html
-RUN git config --global --add safe.directory /var/www/html
-WORKDIR /var/www/html
+RUN mkdir -p /home/docker/www
+RUN git config --global --add safe.directory /home/docker/www
+WORKDIR /home/docker/www

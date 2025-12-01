@@ -1,4 +1,4 @@
-FROM php:8.2-fpm
+FROM php:8.4-fpm
 
 # Node JS repo
 RUN curl -s https://deb.nodesource.com/setup_18.x | bash

@@ -28,3 +28,7 @@ RUN mv /root/.symfony5/bin/symfony /usr/local/bin/symfony
 
 # Cleanup
 RUN rm -rf /tmp/* /usr/local/lib/php/doc/* /var/cache/apk/*
+
+RUN mkdir -p /home/docker/www
+RUN git config --global --add safe.directory /home/docker/www
+WORKDIR /home/docker/www
