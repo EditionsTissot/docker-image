@@ -3,7 +3,7 @@ FROM php:8.2-fpm-alpine
 RUN echo 'http://dl-cdn.alpinelinux.org/alpine/v3.6/community' >> /etc/apk/repositories
 
 RUN apk upgrade --update && \
-apk add --no-cache ${PHPIZE_DEPS} bash zip curl wget libpng libzip icu mariadb-client openssh make openssl imagemagick imagemagick-dev 'tidyhtml-dev==5.2.0-r1' linux-headers && \
+apk add --no-cache ${PHPIZE_DEPS} bash git zip curl wget libpng libzip icu mariadb-client openssh make openssl imagemagick imagemagick-dev 'tidyhtml-dev==5.2.0-r1' linux-headers && \
 apk add --no-cache --virtual .build-deps libxml2-dev curl-dev libzip-dev libpng-dev icu-dev libjpeg-turbo-dev libwebp-dev zlib-dev libxpm-dev
 
 RUN docker-php-ext-install pdo pdo_mysql ftp zip bcmath xml curl gd intl sysvsem sockets
