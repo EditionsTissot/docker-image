@@ -55,6 +55,8 @@ on:
           - 'editionstissot/node:16-slim-latest'
           - 'editionstissot/node:18-slim-latest'
           - 'editionstissot/node:20-slim-latest'
+          - 'editionstissot/node:22-slim-latest'
+          - 'editionstissot/node:23-slim-latest'
           # Node - chrome
           - 'editionstissot/node:16-slim-chrome-latest'
           - 'editionstissot/node:18-slim-chrome-latest'
@@ -112,10 +114,13 @@ jobs:
           - { path: './node/16.slim.Dockerfile', tag: 'editionstissot/node:16-slim-latest', platforms: 'linux/amd64,linux/arm64' }
           - { path: './node/18.slim.Dockerfile', tag: 'editionstissot/node:18-slim-latest', platforms: 'linux/amd64,linux/arm64' }
           - { path: './node/20.slim.Dockerfile', tag: 'editionstissot/node:20-slim-latest', platforms: 'linux/amd64,linux/arm64' }
+          - { path: './node/22.slim.Dockerfile', tag: 'editionstissot/node:22-slim-latest', platforms: 'linux/amd64,linux/arm64' }
+          - { path: './node/23.slim.Dockerfile', tag: 'editionstissot/node:23-slim-latest', platforms: 'linux/amd64,linux/arm64' }
           # Node - chrome
           - { path: './node/16.slim-chrome.Dockerfile', tag: 'editionstissot/node:16-slim-chrome-latest', platforms: 'linux/amd64' }
           - { path: './node/18.slim-chrome.Dockerfile', tag: 'editionstissot/node:18-slim-chrome-latest', platforms: 'linux/amd64' }
           - { path: './node/20.slim-chrome.Dockerfile', tag: 'editionstissot/node:20-slim-chrome-latest', platforms: 'linux/amd64' }
+          - { path: './node/22.slim-chrome.Dockerfile', tag: 'editionstissot/node:22-slim-chrome-latest', platforms: 'linux/amd64' }
 
     steps:
       - name: Checkout repository
