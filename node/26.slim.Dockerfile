@@ -1,7 +1,5 @@
 FROM node:26-slim
 
-MAINTAINER "Rémy BRUYERE <me@remy.ovh>"
-
 # Install custom extensions
 RUN apt-get update && apt-get install -y \
     make curl wget zip git jq
