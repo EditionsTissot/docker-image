@@ -48,6 +48,7 @@ on:
           - 'editionstissot/php-node:8.4-playwright-latest'
           - 'editionstissot/php-node:8.4-fpm-20.x-latest'
           - 'editionstissot/php-node:8.4-fpm-22.x-latest'
+          - 'editionstissot/php-node:8.4-fpm-26.x-latest'
           - 'editionstissot/php-node:8.5-playwright-latest'
           - 'editionstissot/php-node:8.5-fpm-20.x-latest'
           - 'editionstissot/php-node:8.5-fpm-22.x-latest'
@@ -59,6 +60,7 @@ on:
           - 'editionstissot/node:22-slim-latest'
           - 'editionstissot/node:23-slim-latest'
           - 'editionstissot/node:24-slim-latest'
+          - 'editionstissot/node:26-slim-latest'
           # Node - chrome
           - 'editionstissot/node:16-slim-chrome-latest'
           - 'editionstissot/node:18-slim-chrome-latest'
@@ -109,6 +111,7 @@ jobs:
           - { path: './php-node/8.4.playwright.Dockerfile', tag: 'editionstissot/php-node:8.4-playwright-latest', platforms: 'linux/amd64,linux/arm64' }
           - { path: './php-node/8.4.fpm-20.x.Dockerfile', tag: 'editionstissot/php-node:8.4-fpm-20.x-latest', platforms: 'linux/amd64,linux/arm64' }
           - { path: './php-node/8.4.fpm-22.x.Dockerfile', tag: 'editionstissot/php-node:8.4-fpm-22.x-latest', platforms: 'linux/amd64,linux/arm64' }
+          - { path: './php-node/8.4.fpm-26.x.Dockerfile', tag: 'editionstissot/php-node:8.4-fpm-26.x-latest', platforms: 'linux/amd64,linux/arm64' }
           - { path: './php-node/8.5.playwright.Dockerfile', tag: 'editionstissot/php-node:8.5-playwright-latest', platforms: 'linux/amd64,linux/arm64' }
           - { path: './php-node/8.5.fpm-20.x.Dockerfile', tag: 'editionstissot/php-node:8.5-fpm-20.x-latest', platforms: 'linux/amd64,linux/arm64' }
           - { path: './php-node/8.5.fpm-22.x.Dockerfile', tag: 'editionstissot/php-node:8.5-fpm-22.x-latest', platforms: 'linux/amd64,linux/arm64' }
@@ -120,6 +123,7 @@ jobs:
           - { path: './node/22.slim.Dockerfile', tag: 'editionstissot/node:22-slim-latest', platforms: 'linux/amd64,linux/arm64' }
           - { path: './node/23.slim.Dockerfile', tag: 'editionstissot/node:23-slim-latest', platforms: 'linux/amd64,linux/arm64' }
           - { path: './node/24.slim.Dockerfile', tag: 'editionstissot/node:24-slim-latest', platforms: 'linux/amd64,linux/arm64' }
+          - { path: './node/26.slim.Dockerfile', tag: 'editionstissot/node:26-slim-latest', platforms: 'linux/amd64,linux/arm64' }
           # Node - chrome
           - { path: './node/16.slim-chrome.Dockerfile', tag: 'editionstissot/node:16-slim-chrome-latest', platforms: 'linux/amd64' }
           - { path: './node/18.slim-chrome.Dockerfile', tag: 'editionstissot/node:18-slim-chrome-latest', platforms: 'linux/amd64' }
